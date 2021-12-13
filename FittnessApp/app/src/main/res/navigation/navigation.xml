@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_navigation"
+    app:startDestination="@id/helloFragment">
+
+    <fragment
+        android:id="@+id/helloFragment"
+        android:name="com.example.androidstudio.FittnessApp.ui.main.HelloFragment"
+        android:label="hello_fragment"
+        tools:layout="@layout/hello_fragment" >
+        <action
+            android:id="@+id/action_helloFragment_to_gameFragment"
+            app:destination="@id/gameFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="com.example.androidstudio.FittnessApp.ui.main.GameFragment"
+        android:label="GameFragment"
+        tools:layout="@layout/game_fragment">
+        <action
+            android:id="@+id/action_gameFragment_to_winFragment"
+            app:destination="@id/winFragment" />
+        <action
+            android:id="@+id/action_gameFragment_to_lossFragment"
+            app:destination="@id/lossFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/lossFragment"
+        android:name="com.example.androidstudio.FittnessApp.ui.main.LossFragment"
+        android:label="LossFragment"
+        tools:layout="@layout/loss_fragment" >
+        <action
+            android:id="@+id/action_lossFragment_to_helloFragment"
+            app:destination="@id/helloFragment"
+            app:popUpTo="@+id/helloFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/winFragment"
+        android:name="com.example.androidstudio.FittnessApp.ui.main.WinFragment"
+        android:label="WinFragment"
+        tools:layout="@layout/win_fragment">
+        <action
+            android:id="@+id/action_winFragment_to_helloFragment"
+            app:destination="@id/helloFragment"
+            app:popUpTo="@+id/helloFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+</navigation>

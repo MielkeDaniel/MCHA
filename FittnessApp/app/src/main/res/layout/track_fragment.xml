@@ -16,7 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="DASHBOARD"
+        android:text="TRACK"
         android:textColor="#4C4C4C"
         android:textSize="30sp"
         android:textStyle="bold"

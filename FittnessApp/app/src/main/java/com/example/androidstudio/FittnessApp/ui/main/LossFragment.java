@@ -16,9 +16,7 @@ public class LossFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "hsfLossFragment";
 
     @Override
-    public View onCreateView(LayoutInflater inflater,
-                             ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView():  ");
 
         View view = inflater.inflate(R.layout.loss_fragment, container, false);

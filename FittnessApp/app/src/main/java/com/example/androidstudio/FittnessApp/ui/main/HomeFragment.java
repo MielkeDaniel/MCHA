@@ -1,21 +1,20 @@
 package com.example.androidstudio.FittnessApp.ui.main;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+
 import com.example.androidstudio.FittnessApp.R;
 
-public class HelloFragment extends Fragment implements View.OnClickListener {
+public class HomeFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "hsflHelloFragment";
 
     @Nullable
@@ -24,16 +23,14 @@ public class HelloFragment extends Fragment implements View.OnClickListener {
                              @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView():  ");
 
-        View view = inflater.inflate(R.layout.hello_fragment, container, false);
-        Button but = (Button)view.findViewById(R.id.butstart_game);
-        but.setOnClickListener(this);
+        View view = inflater.inflate(R.layout.home_fragment, container, false);
 
         return view;
     }
 
     public void onClick(View view) {
         Log.d(TAG, "onClick()");
-        NavHostFragment.findNavController(this).navigate(R.id.action_helloFragment_to_gameFragment);
+
     }
 
 }

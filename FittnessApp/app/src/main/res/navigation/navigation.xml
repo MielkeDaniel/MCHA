@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/helloFragment"
-        android:name="com.example.androidstudio.FittnessApp.ui.main.HelloFragment"
+        android:name="com.example.androidstudio.FittnessApp.ui.main.HomeFragment"
         android:label="hello_fragment"
-        tools:layout="@layout/hello_fragment" >
+        tools:layout="@layout/home_fragment" >
         <action
             android:id="@+id/action_helloFragment_to_gameFragment"
             app:destination="@id/gameFragment"

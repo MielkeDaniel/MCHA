@@ -12,15 +12,6 @@
         <entry key="..\:/Users/Daniel/AndroidStudioProjects/FittnessAppHA/FittnessApp/app/src/main/res/layout/win_fragment.xml" value="0.2798913043478261" />
         <entry key="..\:/Users/Daniel/AndroidStudioProjects/FittnessAppHA/FittnessApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2638888888888889" />
         <entry key="..\:/Users/Daniel/AndroidStudioProjects/FittnessAppHA/FittnessApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2638888888888889" />
-        <entry key="..\:/Users/Sander/Desktop/Studium-3-Semester/Mobile Computing/Hausarbeit/FittnessApp/app/src/main/res/drawable/roundedbutton.xml" value="0.3828125" />
-        <entry key="..\:/Users/Sander/Desktop/Studium-3-Semester/Mobile Computing/Hausarbeit/FittnessApp/app/src/main/res/drawable/roundedbuttonred.xml" value="0.3828125" />
-        <entry key="..\:/Users/Sander/Desktop/Studium-3-Semester/Mobile Computing/Hausarbeit/FittnessApp/app/src/main/res/layout/bike_fragment.xml" value="0.33" />
-        <entry key="..\:/Users/Sander/Desktop/Studium-3-Semester/Mobile Computing/Hausarbeit/FittnessApp/app/src/main/res/layout/game_fragment.xml" value="0.26766304347826086" />
-        <entry key="..\:/Users/Sander/Desktop/Studium-3-Semester/Mobile Computing/Hausarbeit/FittnessApp/app/src/main/res/layout/hello_fragment.xml" value="0.26766304347826086" />
-        <entry key="..\:/Users/Sander/Desktop/Studium-3-Semester/Mobile Computing/Hausarbeit/FittnessApp/app/src/main/res/layout/home_fragment.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Sander/Desktop/Studium-3-Semester/Mobile Computing/Hausarbeit/FittnessApp/app/src/main/res/layout/loss_fragment.xml" value="0.26766304347826086" />
-        <entry key="..\:/Users/Sander/Desktop/Studium-3-Semester/Mobile Computing/Hausarbeit/FittnessApp/app/src/main/res/layout/main_activity.xml" value="0.26766304347826086" />
-        <entry key="..\:/Users/Sander/Desktop/Studium-3-Semester/Mobile Computing/Hausarbeit/FittnessApp/app/src/main/res/layout/win_fragment.xml" value="0.26766304347826086" />
         <entry key="..\:/Users/Daniel/Desktop/3. Semester/Mobile Computing/FittnessAppHA/FittnessApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.36875" />
         <entry key="..\:/Users/Daniel/Desktop/3. Semester/Mobile Computing/FittnessAppHA/FittnessApp/app/src/main/res/layout/cardio_fragment.xml" value="0.190625" />
         <entry key="..\:/Users/Daniel/Desktop/3. Semester/Mobile Computing/FittnessAppHA/FittnessApp/app/src/main/res/layout/game_fragment.xml" value="0.27355072463768115" />
@@ -29,24 +20,8 @@
         <entry key="..\:/Users/Daniel/Desktop/3. Semester/Mobile Computing/FittnessAppHA/FittnessApp/app/src/main/res/layout/loss_fragment.xml" value="0.26721014492753625" />
         <entry key="..\:/Users/Daniel/Desktop/3. Semester/Mobile Computing/FittnessAppHA/FittnessApp/app/src/main/res/layout/main_activity.xml" value="0.26721014492753625" />
         <entry key="..\:/Users/Daniel/Desktop/3. Semester/Mobile Computing/FittnessAppHA/FittnessApp/app/src/main/res/layout/settings_fragments.xml" value="0.190625" />
+        <entry key="..\:/Users/Daniel/Desktop/3. Semester/Mobile Computing/FittnessAppHA/FittnessApp/app/src/main/res/layout/track_fragment.xml" value="0.22" />
         <entry key="..\:/Users/Daniel/Desktop/3. Semester/Mobile Computing/FittnessAppHA/FittnessApp/app/src/main/res/layout/win_fragment.xml" value="0.26721014492753625" />
-        <entry key="..\:/Users/haida/OneDrive - Hochschule Flensburg/Hochschule Flensburg/Dritten Semester/Hausarbeit/FittnessApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/haida/OneDrive - Hochschule Flensburg/Hochschule Flensburg/Dritten Semester/Hausarbeit/FittnessApp/app/src/main/res/drawable/custom_button.xml" value="0.4369230769230769" />
-        <entry key="..\:/Users/haida/OneDrive - Hochschule Flensburg/Hochschule Flensburg/Dritten Semester/Hausarbeit/FittnessApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/haida/OneDrive - Hochschule Flensburg/Hochschule Flensburg/Dritten Semester/Hausarbeit/FittnessApp/app/src/main/res/layout/cardio_fragment.xml" value="0.4466666666666667" />
-        <entry key="..\:/Users/haida/OneDrive - Hochschule Flensburg/Hochschule Flensburg/Dritten Semester/Hausarbeit/FittnessApp/app/src/main/res/layout/game_fragment.xml" value="0.33125" />
-        <entry key="..\:/Users/haida/OneDrive - Hochschule Flensburg/Hochschule Flensburg/Dritten Semester/Hausarbeit/FittnessApp/app/src/main/res/layout/home_fragment.xml" value="0.33125" />
-        <entry key="..\:/Users/haida/OneDrive - Hochschule Flensburg/Hochschule Flensburg/Dritten Semester/Hausarbeit/FittnessApp/app/src/main/res/layout/loss_fragment.xml" value="0.33125" />
-        <entry key="..\:/Users/haida/OneDrive - Hochschule Flensburg/Hochschule Flensburg/Dritten Semester/Hausarbeit/FittnessApp/app/src/main/res/layout/main_activity.xml" value="0.33125" />
-        <entry key="..\:/Users/haida/OneDrive - Hochschule Flensburg/Hochschule Flensburg/Dritten Semester/Hausarbeit/FittnessApp/app/src/main/res/layout/win_fragment.xml" value="0.33125" />
-        <entry key="..\:/Users/Donto/Desktop/Medieninformatik/3. Semester/Mobile Computing/Hausarbeit/Sportapp/FittnessApp/app/src/main/res/layout/fragment_track.xml" value="0.264" />
-        <entry key="..\:/Users/Donto/Desktop/Medieninformatik/3. Semester/Mobile Computing/Hausarbeit/Sportapp/FittnessApp/app/src/main/res/layout/game_fragment.xml" value="0.25" />
-        <entry key="..\:/Users/Donto/Desktop/Medieninformatik/3. Semester/Mobile Computing/Hausarbeit/Sportapp/FittnessApp/app/src/main/res/layout/hello_fragment.xml" value="0.25" />
-        <entry key="..\:/Users/Donto/Desktop/Medieninformatik/3. Semester/Mobile Computing/Hausarbeit/Sportapp/FittnessApp/app/src/main/res/layout/home_fragment.xml" value="0.264" />
-        <entry key="..\:/Users/Donto/Desktop/Medieninformatik/3. Semester/Mobile Computing/Hausarbeit/Sportapp/FittnessApp/app/src/main/res/layout/loss_fragment.xml" value="0.25" />
-        <entry key="..\:/Users/Donto/Desktop/Medieninformatik/3. Semester/Mobile Computing/Hausarbeit/Sportapp/FittnessApp/app/src/main/res/layout/main_activity.xml" value="0.25" />
-        <entry key="..\:/Users/Donto/Desktop/Medieninformatik/3. Semester/Mobile Computing/Hausarbeit/Sportapp/FittnessApp/app/src/main/res/layout/track_fragment.xml" value="0.264" />
-        <entry key="..\:/Users/Donto/Desktop/Medieninformatik/3. Semester/Mobile Computing/Hausarbeit/Sportapp/FittnessApp/app/src/main/res/layout/win_fragment.xml" value="0.25" />
       </map>
     </option>
   </component>

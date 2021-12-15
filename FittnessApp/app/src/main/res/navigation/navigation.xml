@@ -30,9 +30,9 @@
     </fragment>
     <fragment
         android:id="@+id/lossFragment"
-        android:name="com.example.androidstudio.FittnessApp.ui.main.LossFragment"
+        android:name="com.example.androidstudio.FittnessApp.ui.main.BikeRunFragment"
         android:label="LossFragment"
-        tools:layout="@layout/loss_fragment" >
+        tools:layout="@layout/BikeRun" >
         <action
             android:id="@+id/action_lossFragment_to_helloFragment"
             app:destination="@id/homeFragment"

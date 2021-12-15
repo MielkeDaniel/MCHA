@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/background" />
+
+    <TextView
+        android:id="@+id/Uhrzeit"
+        android:layout_width="53dp"
+        android:layout_height="25dp"
+        android:gravity="center"
+        android:text="13:37"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/BikeRun1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/Kalorien"
+        android:layout_width="64dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="420"
+        android:textColor="@color/black"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+    <TextView
+        android:id="@+id/DurchschnittlicherPuls"
+        android:layout_width="80dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="70dp"
+        android:gravity="center"
+        android:text="Ø110"
+        android:textColor="@color/black"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+    <TextView
+        android:id="@+id/Puls"
+        android:layout_width="64dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="80dp"
+        android:gravity="center"
+        android:text="120"
+        android:textColor="@color/black"
+        android:textSize="38sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BikeRun1" />
+
+    <TextView
+        android:id="@+id/Dauer"
+        android:layout_width="129dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="100dp"
+        android:text="00:00,00"
+        android:textColor="@color/black"
+        android:textSize="34sp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/Strecke"
+        android:layout_width="64dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="80dp"
+        android:gravity="center"
+        android:text="10"
+        android:textColor="@color/black"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+    <TextView
+        android:id="@+id/DurchschnittlicheGeschwindigkeit"
+        android:layout_width="80dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="Ø20"
+        android:textColor="@color/black"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+    <TextView
+        android:id="@+id/Geschwindigkeit"
+        android:layout_width="64dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="60dp"
+        android:gravity="center"
+        android:text="25"
+        android:textColor="@color/black"
+        android:textSize="38sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BikeRun1" />
+
+    <TextView
+        android:id="@+id/BikeRun1"
+        android:layout_width="156dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="BikeRun 1"
+        android:textColor="@color/black"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView3" />
+
+    <Button
+        android:id="@+id/Löschen"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/roundedbuttonred"
+        android:backgroundTint="#6C1414"
+        android:foreground="@drawable/roundedbuttonred"
+        android:text="Löschen"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/startStop"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/roundedbuttongreen"
+        android:foreground="@drawable/roundedbuttongreen"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="Start"
+        android:textColor="#144C1D"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/Start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        android:text="Start"
+        android:textColor="#56C53E"
+        android:textSize="20sp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/startStop"
+        app:layout_constraintEnd_toEndOf="@+id/startStop"
+        app:layout_constraintStart_toStartOf="@+id/startStop"
+        app:layout_constraintTop_toTopOf="@+id/startStop" />
+
+    <TextView
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        android:text="Löschen"
+        android:gravity="center"
+        android:textColor="#D51E1E"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/Löschen"
+        app:layout_constraintEnd_toEndOf="@+id/Löschen"
+        app:layout_constraintStart_toStartOf="@+id/Löschen"
+        app:layout_constraintTop_toTopOf="@+id/Löschen" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="64dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="80dp"
+        android:gravity="center"
+        android:text="km"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/Strecke" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="64dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="80dp"
+        android:gravity="center"
+        android:text="kcal"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/Kalorien" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:text="km/h"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Geschwindigkeit" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="80dp"
+        android:gravity="center"
+        android:text="bpm"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Puls" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="80dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="70dp"
+        android:gravity="center"
+        android:text="km/h"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DurchschnittlicheGeschwindigkeit" />
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="80dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="70dp"
+        android:gravity="center"
+        android:text="bpm"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DurchschnittlicherPuls" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

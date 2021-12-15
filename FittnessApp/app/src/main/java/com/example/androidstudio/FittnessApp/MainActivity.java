@@ -13,12 +13,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.example.androidstudio.FittnessApp.ui.main.TrackFragment;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+
+                    .setReorderingAllowed(true)
+                    .add(R.id.container, new TrackFragment(), null)
+                    .commit();
+
+        }
 
     }
 }

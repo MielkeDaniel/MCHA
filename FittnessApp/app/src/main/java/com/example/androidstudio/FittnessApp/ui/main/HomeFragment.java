@@ -17,6 +17,7 @@ import com.example.androidstudio.FittnessApp.R;
 public class HomeFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "hsflHelloFragment";
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,

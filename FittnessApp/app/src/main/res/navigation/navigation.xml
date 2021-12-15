@@ -18,9 +18,9 @@
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
-        android:name="com.example.androidstudio.FittnessApp.ui.main.GameFragment"
+        android:name="com.example.androidstudio.FittnessApp.ui.main.CardioFragment"
         android:label="GameFragment"
-        tools:layout="@layout/game_fragment">
+        tools:layout="@layout/cardio_fragment">
         <action
             android:id="@+id/action_gameFragment_to_winFragment"
             app:destination="@id/winFragment" />

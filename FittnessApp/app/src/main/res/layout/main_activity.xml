@@ -14,10 +14,4 @@
         android:layout_height="match_parent"
         app:defaultNavHost="true"
         app:navGraph="@navigation/navigation" />
-
-    <fragment
-        android:id="@+id/.track"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
 </FrameLayout>

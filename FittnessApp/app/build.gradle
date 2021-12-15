@@ -6,7 +6,7 @@ android {
     compileSdk 30
 
     defaultConfig {
-        applicationId "com.example.androidstudio.hfragmentswitchnav"
+        applicationId "com.example.androidstudio.FittnessApp"
         minSdk 23
         targetSdk 30
         versionCode 1

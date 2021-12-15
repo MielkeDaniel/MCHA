@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_navigation"
-    app:startDestination="@id/helloFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/helloFragment"
+        android:id="@+id/homeFragment"
         android:name="com.example.androidstudio.FittnessApp.ui.main.HomeFragment"
-        android:label="hello_fragment"
-        tools:layout="@layout/home_fragment" >
+        android:label="home_fragment"
+        tools:layout="@layout/home_fragment">
         <action
             android:id="@+id/action_helloFragment_to_gameFragment"
             app:destination="@id/gameFragment"
@@ -35,8 +35,8 @@
         tools:layout="@layout/loss_fragment" >
         <action
             android:id="@+id/action_lossFragment_to_helloFragment"
-            app:destination="@id/helloFragment"
-            app:popUpTo="@+id/helloFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@+id/homeFragment"
             app:popUpToInclusive="true"/>
     </fragment>
     <fragment
@@ -46,8 +46,8 @@
         tools:layout="@layout/win_fragment">
         <action
             android:id="@+id/action_winFragment_to_helloFragment"
-            app:destination="@id/helloFragment"
-            app:popUpTo="@+id/helloFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@+id/homeFragment"
             app:popUpToInclusive="true"/>
     </fragment>
 </navigation>

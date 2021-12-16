@@ -1,4 +1,4 @@
-package com.example.androidstudio.FittnessApp.ui.main;
+package com.example.androidstudio.FittnessApp.ui.main.Home;
 
 
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.androidstudio.FittnessApp.R;
 
@@ -60,7 +61,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.trackCard:
                 Log.v(TAG, "trackcard was clicked");
-
+                NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_trackFragment);
                 break;
             case R.id.surfCard:
                 Log.v(TAG, "surfCard was clicked");
@@ -68,15 +69,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.settingsCard:
                 Log.v(TAG, "settingsCard was clicked");
-
+                NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_settingsFragment);
                 break;
             case R.id.cardioCard:
                 Log.v(TAG, "cardioCard was clicked");
-
+                NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_cardioFragment);
                 break;
             case R.id.bicycleCard:
                 Log.v(TAG, "bicycleCard was clicked");
-
+                NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_bikeRunFragment);
                 break;
 
         }

@@ -1,4 +1,4 @@
-package com.example.androidstudio.FittnessApp.ui.main;
+package com.example.androidstudio.FittnessApp.ui.main.BikeRun;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -30,7 +30,7 @@ public class BikeRunFragment extends Fragment implements View.OnClickListener {
 
     public void onClick(View view) {
         Log.d(TAG, "onClick()");
-        NavHostFragment.findNavController(this).navigate(R.id.action_lossFragment_to_helloFragment);
+        //NavHostFragment.findNavController(this).navigate(R.id.);
     }
 
 }

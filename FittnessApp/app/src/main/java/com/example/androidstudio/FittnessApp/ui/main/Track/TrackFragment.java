@@ -1,4 +1,4 @@
-package com.example.androidstudio.FittnessApp.ui.main;
+package com.example.androidstudio.FittnessApp.ui.main.Track;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -26,8 +26,7 @@ public class TrackFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView():  in TrackFragment");
 
-        zurückButton = getView().findViewById(R.id.zurück);
-        zurückButton.setOnClickListener(this);
+
 
         View view = inflater.inflate(R.layout.track_fragment, container, false);
 

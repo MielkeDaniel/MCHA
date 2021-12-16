@@ -7,47 +7,37 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.androidstudio.FittnessApp.ui.main.HomeFragment"
+        android:name="com.example.androidstudio.FittnessApp.ui.main.Home.HomeFragment"
         android:label="home_fragment"
         tools:layout="@layout/home_fragment">
         <action
-            android:id="@+id/action_helloFragment_to_gameFragment"
-            app:destination="@id/gameFragment"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out" />
+            android:id="@+id/action_homeFragment_to_bikeRunFragment"
+            app:destination="@id/bikeRunFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_trackFragment"
+            app:destination="@id/trackFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_cardioFragment"
+            app:destination="@id/cardioFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/gameFragment"
-        android:name="com.example.androidstudio.FittnessApp.ui.main.CardioFragment"
-        android:label="GameFragment"
-        tools:layout="@layout/cardio_fragment">
-        <action
-            android:id="@+id/action_gameFragment_to_winFragment"
-            app:destination="@id/winFragment" />
-        <action
-            android:id="@+id/action_gameFragment_to_lossFragment"
-            app:destination="@id/lossFragment" />
-    </fragment>
+        android:id="@+id/bikeRunFragment"
+        android:name="com.example.androidstudio.FittnessApp.ui.main.BikeRun.BikeRunFragment"
+        android:label="BikeRunFragment" />
     <fragment
-        android:id="@+id/lossFragment"
-        android:name="com.example.androidstudio.FittnessApp.ui.main.BikeRunFragment"
-        android:label="LossFragment"
-        tools:layout="@layout/BikeRun" >
-        <action
-            android:id="@+id/action_lossFragment_to_helloFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@+id/homeFragment"
-            app:popUpToInclusive="true"/>
-    </fragment>
+        android:id="@+id/trackFragment"
+        android:name="com.example.androidstudio.FittnessApp.ui.main.Track.TrackFragment"
+        android:label="track_fragment"
+        tools:layout="@layout/track_fragment" />
     <fragment
-        android:id="@+id/winFragment"
-        android:name="com.example.androidstudio.FittnessApp.ui.main.WinFragment"
-        android:label="WinFragment"
-        tools:layout="@layout/win_fragment">
-        <action
-            android:id="@+id/action_winFragment_to_helloFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@+id/homeFragment"
-            app:popUpToInclusive="true"/>
-    </fragment>
+        android:id="@+id/cardioFragment"
+        android:name="com.example.androidstudio.FittnessApp.ui.main.Cardio.CardioFragment"
+        android:label="CardioFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.androidstudio.FittnessApp.ui.main.Settings.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>

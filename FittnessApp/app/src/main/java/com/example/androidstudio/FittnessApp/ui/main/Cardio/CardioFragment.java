@@ -1,4 +1,4 @@
-package com.example.androidstudio.FittnessApp.ui.main;
+package com.example.androidstudio.FittnessApp.ui.main.Cardio;
 
 
 import android.os.Bundle;
@@ -34,10 +34,10 @@ public class CardioFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         Log.d(TAG, "onClick()");
         if (view.getId() == R.id.butwin) {
-            NavHostFragment.findNavController(this).navigate(R.id.action_gameFragment_to_winFragment);
+            //NavHostFragment.findNavController(this).navigate(R.id.action_gameFragment_to_winFragment);
         }
         else {
-            NavHostFragment.findNavController(this).navigate(R.id.action_gameFragment_to_lossFragment);
+            //NavHostFragment.findNavController(this).navigate(R.id.action_gameFragment_to_lossFragment);
         }
     }
 }

@@ -19,7 +19,7 @@ import com.example.androidstudio.FittnessApp.R;
 
 
 public class TrackFragment extends Fragment implements View.OnClickListener {
-    private static final String TAG = "TrackFragment";
+    private static final String TAG = "trackFragment";
     private Button zurückButton;
 
     @Override

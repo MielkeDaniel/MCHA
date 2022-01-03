@@ -8,3 +8,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "FittnessApp"
 include ':app'
+include ':BLHeartRateConnection'
+

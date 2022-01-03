@@ -34,17 +34,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         View view = inflater.inflate(R.layout.home_fragment, container, false);
 
-        homeCard = (CardView) view.findViewById(R.id.homeCard);
         trackCard = (CardView) view.findViewById(R.id.trackCard);
-        surfCard = (CardView) view.findViewById(R.id.surfCard);
         settingsCard = (CardView) view.findViewById(R.id.settingsCard);
         cardioCard = (CardView) view.findViewById(R.id.cardioCard);
         bicycleCard= (CardView) view.findViewById(R.id.bicycleCard);
 
 
-        homeCard.setOnClickListener(this);
         trackCard.setOnClickListener(this);
-        surfCard.setOnClickListener(this);
         settingsCard.setOnClickListener(this);
         cardioCard.setOnClickListener(this);
         bicycleCard.setOnClickListener(this);
@@ -57,17 +53,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.homeCard:
-                Log.v(TAG, "homecard was clicked");
-
-                break;
             case R.id.trackCard:
                 Log.v(TAG, "trackcard was clicked");
                 NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_trackFragment);
-                break;
-            case R.id.surfCard:
-                Log.v(TAG, "surfCard was clicked");
-
                 break;
             case R.id.settingsCard:
                 Log.v(TAG, "settingsCard was clicked");

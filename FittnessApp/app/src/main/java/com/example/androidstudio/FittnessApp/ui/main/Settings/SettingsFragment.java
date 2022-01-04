@@ -5,10 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.androidstudio.FittnessApp.R;
 
@@ -26,7 +24,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     public void onClick(View view) {
         Log.d(TAG, "onClick()");
-        if (view.getId() == R.id.butwin) {
+        if (view.getId() == R.id.butpause) {
             //NavHostFragment.findNavController(this).navigate(R.id.action_gameFragment_to_winFragment);
         }
         else {

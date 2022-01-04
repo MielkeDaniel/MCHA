@@ -1,4 +1,7 @@
 package com.example.androidstudio.FittnessApp.ui.main.Cardio;
 
-public class CardioViewModel {
+import androidx.lifecycle.ViewModel;
+
+public class CardioViewModel extends ViewModel {
+
 }

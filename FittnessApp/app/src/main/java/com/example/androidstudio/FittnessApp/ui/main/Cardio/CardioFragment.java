@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 public class CardioFragment extends Fragment implements View.OnClickListener{
-    private static final String TAG = "hsflGameFragment";
+    private static final String TAG = "cardieFragment";
 
     @Override
     public View onCreateView(LayoutInflater inflater,

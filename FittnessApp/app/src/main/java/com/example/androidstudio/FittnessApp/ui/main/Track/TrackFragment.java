@@ -19,7 +19,7 @@ import com.example.androidstudio.FittnessApp.R;
 
 
 public class TrackFragment extends Fragment implements View.OnClickListener {
-    private static final String TAG = "TrackFragment";
+    private static final String TAG = "trackFragment";
     private Button zurückButton;
 
     @Override
@@ -38,10 +38,6 @@ public class TrackFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         Log.d(TAG, "onClick():  in TrackFragment");
         switch (view.getId()){
-           // case R.id.zurück: //Wenn der Startbutton gedrückt wird
-                //Log.d(TAG, "zurückButton");
-                //Button zum wechseln zum HomeFragment
-               // break;
             case R.id.zentrieren:
                 Log.d(TAG, "zentrierenButton");
                 //Button zum zentrieren der Karte

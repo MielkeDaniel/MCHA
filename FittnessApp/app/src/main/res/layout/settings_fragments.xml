@@ -91,19 +91,6 @@
         app:layout_constraintTop_toBottomOf="@+id/statusView"
         app:layout_constraintVertical_bias="0.064" />
 
-    <View
-        android:id="@+id/sensorView"
-        android:layout_width="wrap_content"
-        android:layout_height="130dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginBottom="0dp"
-        android:background="@color/grey"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view"
-        app:layout_constraintVertical_bias="1.0" />
 
     <View
         android:id="@+id/statusView"
@@ -136,8 +123,7 @@
         app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="@+id/nameView"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="1.0"
-       />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/einstellungentext"
@@ -280,30 +266,21 @@
         android:id="@+id/btButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
+        android:layout_marginStart="16dp"
         android:backgroundTint="#20A0D3"
         android:text="@string/bluetooth_heartratesensor_verbinden"
         app:icon="@android:drawable/stat_sys_data_bluetooth"
-        app:layout_constraintBottom_toBottomOf="@+id/sensorView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.119"
-        app:layout_constraintStart_toStartOf="@+id/sensorView"
-        app:layout_constraintTop_toTopOf="@+id/sensorView"
-        app:layout_constraintVertical_bias="0.109" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailview" />
 
     <TextView
-        android:id="@+id/statusanzeige"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/connectionState"
+        android:layout_width="102dp"
+        android:layout_height="26dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:hint="StatusAnzeige"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.045"
-        app:layout_constraintStart_toStartOf="@+id/sensorView"
-        app:layout_constraintTop_toBottomOf="@+id/btButton"
-        app:layout_constraintVertical_bias="0.208" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

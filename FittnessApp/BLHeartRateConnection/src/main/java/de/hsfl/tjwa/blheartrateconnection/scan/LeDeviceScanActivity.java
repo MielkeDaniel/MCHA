@@ -104,7 +104,6 @@ public class LeDeviceScanActivity extends AppCompatActivity {
                     finish();
                 }
             });
-
             scanLeDevice(true);
         }
     }

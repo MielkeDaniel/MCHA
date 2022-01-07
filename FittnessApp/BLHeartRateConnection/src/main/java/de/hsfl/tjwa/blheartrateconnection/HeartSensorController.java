@@ -132,8 +132,8 @@ public class HeartSensorController implements OnBluetoothListener {
      * Gibt zurück, ob ein Herzsensor verbunden ist
      * @return Verbindungsstatus
      */
-    public LiveData<Boolean> isConnected() {
-        return this.connectionState;
+    public Boolean isConnected() {
+        return this.connect;
     }
 
     /**

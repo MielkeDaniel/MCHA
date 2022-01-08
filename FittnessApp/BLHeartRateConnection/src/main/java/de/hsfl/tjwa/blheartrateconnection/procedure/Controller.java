@@ -1,11 +1,8 @@
 package de.hsfl.tjwa.blheartrateconnection.procedure;
 
 import android.app.Activity;
-import android.app.Instrumentation;
-import android.app.TaskInfo;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -16,11 +13,9 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.PermissionChecker;
 
 import de.hsfl.tjwa.blheartrateconnection.scan.LeDeviceScanActivity;
 
@@ -102,7 +97,6 @@ public class Controller extends StateMachine implements  BluetoothController {
                             BluetoothDevice device = (BluetoothDevice)result.getData().getExtras().get(LeDeviceScanActivity.SELECTED_DEVICE);
                             if (device != null) {
                                 Log.d(TAG, "Selected Device: " + device.getName());
-
                                 //Gerät laden und verbinden
                                 Controller.this.mDevice = device;
                                 sendSmMessage(SmMessage.CONNECT_LOADED_DEVICE.ordinal(), 0, 0, null);

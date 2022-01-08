@@ -1,14 +1,19 @@
 package com.example.androidstudio.FittnessApp.ui.main.Track;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,16 +22,23 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.views.MapView;
+
 import com.example.androidstudio.FittnessApp.R;
 
 
-public class TrackFragment extends Fragment implements View.OnClickListener {
+public class TrackFragment extends Fragment implements View.OnClickListener, LocationListener {
+
     private static final String TAG = "trackFragment";
     private Button zurückButton;
 
     private Button zoomButton;
     private Button centerButton;
     private Button gpsButton;
+
+    private MapView map;
 
     private TextView geschwindigkeitsView;
     @Override
@@ -44,7 +56,14 @@ public class TrackFragment extends Fragment implements View.OnClickListener {
         centerButton.setOnClickListener(this);
         gpsButton.setOnClickListener(this);
 
-        //Sensormanager
+        //Map
+        Context ctx = getActivity().getApplicationContext();
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+        getActivity().setContentView(R.layout.track_fragment);
+
+        map = (MapView) view.findViewById(R.id.mapview);
+        map.setTileSource(TileSourceFactory.MAPNIK);
+
 
 
         return view;
@@ -85,5 +104,30 @@ public class TrackFragment extends Fragment implements View.OnClickListener {
                 break;
         }
 
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //this will refresh the osmdroid configuration on resuming.
+        //if you make changes to the configuration, use
+        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        //Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
+        map.onResume(); //needed for compass, my location overlays, v6.0.0 and up
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        //this will refresh the osmdroid configuration on resuming.
+        //if you make changes to the configuration, use
+        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        //Configuration.getInstance().save(this, prefs);
+        map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
     }
 }

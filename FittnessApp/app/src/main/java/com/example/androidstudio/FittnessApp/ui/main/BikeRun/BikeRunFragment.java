@@ -2,6 +2,8 @@ package com.example.androidstudio.FittnessApp.ui.main.BikeRun;
 
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -18,12 +20,17 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.androidstudio.FittnessApp.R;
+import com.example.androidstudio.FittnessApp.ui.main.Home.HomeFragment;
 
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.content.Context;
+
+import de.hsfl.tjwa.blheartrateconnection.HeartSensorController;
 
 
 public class BikeRunFragment extends Fragment implements View.OnClickListener {
@@ -40,9 +47,12 @@ public class BikeRunFragment extends Fragment implements View.OnClickListener {
     private TextView distance;
     private TextView duration;
 
+    HeartSensorController heartSensorController = new HeartSensorController(getActivity());
+
     private float speed;
     private int addedSpeed = 0;
     private double caloriesBurnt = 0;
+    private int addedBPM = 0;
     double distanceTraveled = 0;
     Location lastLocation;
 
@@ -69,6 +79,8 @@ public class BikeRunFragment extends Fragment implements View.OnClickListener {
 
         startStopButton.setOnClickListener(this);
         resetButton.setOnClickListener(this);
+
+        heartSensorController.startSimulation(1000);
 
         startTimer();
 
@@ -106,12 +118,40 @@ public class BikeRunFragment extends Fragment implements View.OnClickListener {
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Log.d(TAG, "onBackPressed");
+                AlertDialog.Builder backAlert = new AlertDialog.Builder(getActivity());
+                backAlert.setTitle("Training Stoppen");
+                backAlert.setMessage("Soll das Training wirklich gestoppt werden?");
+                backAlert.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Log.v(TAG, "going back to home");
+                        NavHostFragment.findNavController(getParentFragment()).navigate(R.id.action_bikeRunFragment_to_homeFragment);
+                    }
+                });
+
+                backAlert.setNeutralButton("Abbrechen", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //do nothing
+                    }
+                });
+
+                backAlert.show();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getActivity(), callback);
+
         return view;
     }
 
     public void onClick(View view){
         switch (view.getId()) {
             case R.id.startStop:
+                Log.d(TAG, "onClick.startStop");
                 if (timerStarted == false) {
                     timerStarted = true;
                     startStopButton.setText("Stop");
@@ -125,21 +165,29 @@ public class BikeRunFragment extends Fragment implements View.OnClickListener {
 
             case R.id.reset:
                 Log.d(TAG, "onClick.reset");
-                timerStarted = false;
-                seconds = 0;
-                addedSpeed = 0;
-                caloriesBurnt = 0;
-                distanceTraveled = 0;
-                lastLocation = null;
-                calories.setText("0");
-                velocity.setText("0");
-                distance.setText("0");
-                averageVelocity.setText("Ø0");
-                startStopButton.setText("Start");
-                startStopButton.setBackgroundColor(Color.GREEN);
+                AlertDialog.Builder resetAlert = new AlertDialog.Builder(getActivity());
+                resetAlert.setTitle("Zurücksetzen");
+                resetAlert.setMessage("Soll das Training wirklich zurückgesetzt werden?");
+                resetAlert.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Log.d(TAG, "resetting");
+                        resetValues();
+                    }
+                });
+
+                resetAlert.setNeutralButton("Abbrechen", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //do nothing
+                    }
+                });
+
+                resetAlert.show();
                 break;
         }
     }
+
 
 
     private void startTimer() {
@@ -155,12 +203,17 @@ public class BikeRunFragment extends Fragment implements View.OnClickListener {
                     calculateCalories(speed);
 
                     seconds++;
+                    int heartrate = heartSensorController.getHeartRate().getValue();
+                    addedBPM += heartrate;
+                    int averageHeartrate = addedBPM / seconds;
 
                     if(speed != 0.0f) {
                         addedSpeed += speed;
                         int averageSpeed = addedSpeed / seconds;
                         averageVelocity.setText("Ø" + String.valueOf(averageSpeed));
                     }
+                    bpm.setText(String.valueOf(heartrate));
+                    averageBPM.setText(String.valueOf("Ø" + averageHeartrate));
                     calories.setText(String.valueOf(caloriesBurnt));
                 }
                 handler.postDelayed(this, 1000);
@@ -182,6 +235,24 @@ public class BikeRunFragment extends Fragment implements View.OnClickListener {
         }else{
             caloriesBurnt += 1000.0 / 3600.0;
         }
+    }
+
+    public void resetValues(){
+        timerStarted = false;
+        seconds = 0;
+        addedSpeed = 0;
+        addedBPM = 0;
+        caloriesBurnt = 0;
+        distanceTraveled = 0;
+        lastLocation = null;
+        calories.setText("0");
+        velocity.setText("0");
+        distance.setText("0");
+        bpm.setText("0");
+        averageVelocity.setText("Ø0");
+        averageBPM.setText("Ø0");
+        startStopButton.setText("Start");
+        startStopButton.setBackgroundColor(Color.GREEN);
     }
 
 }

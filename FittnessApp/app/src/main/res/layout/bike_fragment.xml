@@ -33,12 +33,12 @@
 
     <TextView
         android:id="@+id/bpm"
-        android:layout_width="64dp"
+        android:layout_width="100dp"
         android:layout_height="45dp"
         android:layout_marginTop="76dp"
-        android:layout_marginEnd="80dp"
+        android:layout_marginEnd="60dp"
         android:gravity="center"
-        android:text="120"
+        android:text="0"
         android:textColor="@color/black"
         android:textSize="38sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,12 +46,12 @@
 
     <TextView
         android:id="@+id/averageBPM"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="48dp"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="70dp"
+        android:layout_marginEnd="60dp"
         android:gravity="center"
-        android:text="Ø110"
+        android:text="Ø0"
         android:textColor="@color/black"
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"

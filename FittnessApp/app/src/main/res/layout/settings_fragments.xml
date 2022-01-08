@@ -91,19 +91,6 @@
         app:layout_constraintTop_toBottomOf="@+id/statusView"
         app:layout_constraintVertical_bias="0.064" />
 
-    <View
-        android:id="@+id/sensorView"
-        android:layout_width="wrap_content"
-        android:layout_height="130dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginBottom="0dp"
-        android:background="@color/grey"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view"
-        app:layout_constraintVertical_bias="1.0" />
 
     <View
         android:id="@+id/statusView"
@@ -120,7 +107,7 @@
         app:layout_constraintVertical_bias="0.028" />
 
     <EditText
-        android:id="@+id/NameEingabe"
+        android:id="@+id/nameInput"
         android:layout_width="400dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -136,8 +123,7 @@
         app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="@+id/nameView"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="1.0"
-       />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/einstellungentext"
@@ -158,7 +144,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <EditText
-        android:id="@+id/planealter"
+        android:id="@+id/ageInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -166,16 +152,16 @@
         android:inputType="number"
         app:layout_constraintBottom_toBottomOf="@+id/ageView"
         app:layout_constraintEnd_toEndOf="@+id/ageView"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/ageView"
         app:layout_constraintTop_toTopOf="@+id/ageView"
+        app:layout_constraintVertical_bias="0.257"
         tools:ignore="TouchTargetSizeCheck" />
 
     <EditText
-        android:id="@+id/gewichtEingabe"
+        android:id="@+id/weightInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
         android:ems="10"
         android:hint="@string/gewicht"
         android:inputType="number"
@@ -184,7 +170,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/ageView"
         app:layout_constraintTop_toTopOf="@+id/waightView"
-        app:layout_constraintVertical_bias="0.514"
+        app:layout_constraintVertical_bias="0.257"
         tools:ignore="TouchTargetSizeCheck" />
 
     <ImageView
@@ -203,7 +189,7 @@
         app:srcCompat="@android:drawable/ic_menu_manage" />
 
     <EditText
-        android:id="@+id/grosseEingabe"
+        android:id="@+id/heightInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="0dp"
@@ -218,40 +204,22 @@
         app:layout_constraintTop_toBottomOf="@+id/ageView"
         tools:ignore="TouchTargetSizeCheck" />
 
-    <EditText
-        android:id="@+id/geschlechtEingabe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/geschlecht"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="@+id/genderView"
-        app:layout_constraintEnd_toEndOf="@+id/genderView"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/genderView"
-        app:layout_constraintTop_toTopOf="@+id/genderView"
-        app:layout_constraintVertical_bias="0.428"
-        tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
-
     <ImageView
         android:id="@+id/imageView5"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="0dp"
         app:layout_constraintBottom_toTopOf="@+id/emailview"
         app:layout_constraintEnd_toEndOf="@+id/statusView"
         app:layout_constraintHorizontal_bias="0.013"
         app:layout_constraintStart_toStartOf="@+id/statusView"
         app:layout_constraintTop_toTopOf="@+id/statusView"
+        app:layout_constraintVertical_bias="0.75"
         app:srcCompat="@android:drawable/sym_action_email" />
 
     <EditText
-        android:id="@+id/emailEingabe"
-        android:layout_width="350dp"
-        android:layout_height="68dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
+        android:id="@+id/emailInput"
+        android:layout_width="352dp"
+        android:layout_height="44dp"
         android:ems="10"
         android:hint="@string/email"
         android:inputType="textPersonName"
@@ -263,13 +231,11 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <EditText
-        android:id="@+id/textviewstatus"
+        android:id="@+id/fittnessStatusInput"
         android:layout_width="0dp"
         android:layout_height="68dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginBottom="0dp"
         android:ems="10"
-        android:hint="@string/fitniss_status"
+        android:hint="Fittness Status"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="@+id/emailview"
         app:layout_constraintEnd_toEndOf="@+id/emailview"
@@ -279,35 +245,54 @@
         app:layout_constraintVertical_bias="0.428" />
 
     <Button
-        android:id="@+id/btbutton"
+        android:id="@+id/btButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
+        android:layout_marginStart="16dp"
         android:backgroundTint="#20A0D3"
         android:text="@string/bluetooth_heartratesensor_verbinden"
         app:icon="@android:drawable/stat_sys_data_bluetooth"
-        app:layout_constraintBottom_toBottomOf="@+id/sensorView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.119"
-        app:layout_constraintStart_toStartOf="@+id/sensorView"
-        app:layout_constraintTop_toTopOf="@+id/sensorView"
-        app:layout_constraintVertical_bias="0.109" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailview" />
 
     <TextView
-        android:id="@+id/statusanzeige"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="0dp"
-        android:hint="StatusAnzeige"
+        android:id="@+id/connectionState"
+        android:layout_width="102dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="16dp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btButton" />
+
+    <RadioGroup
+        android:id="@+id/genderInput"
+        android:layout_width="197dp"
+        android:layout_height="101dp"
+        android:layout_marginStart="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/emailInput"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.045"
-        app:layout_constraintStart_toStartOf="@+id/sensorView"
-        app:layout_constraintTop_toBottomOf="@+id/btbutton"
-        app:layout_constraintVertical_bias="0.208" />
+        app:layout_constraintStart_toEndOf="@+id/heightInput"
+        app:layout_constraintTop_toBottomOf="@+id/waightView">
+
+        <RadioButton
+            android:id="@+id/genderM"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Männlich" />
+
+        <RadioButton
+            android:id="@+id/genderF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Weiblich" />
+
+        <RadioButton
+            android:id="@+id/genderD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Divers" />
+
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

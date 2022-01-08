@@ -1,14 +1,13 @@
 package com.example.androidstudio.FittnessApp.ui.main.Track;
 
-import android.app.Activity;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,10 +20,9 @@ import android.widget.Toast;
 import com.example.androidstudio.FittnessApp.R;
 
 
-public class TrackFragment extends Fragment implements View.OnClickListener, SensorEventListener {
-    private static final String TAG = "TrackFragment";
-    private SensorManager sensorManager;
-    private Sensor accelerometer;
+public class TrackFragment extends Fragment implements View.OnClickListener {
+    private static final String TAG = "trackFragment";
+    private Button zurückButton;
 
     private Button zoomButton;
     private Button centerButton;
@@ -47,8 +45,7 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Sen
         gpsButton.setOnClickListener(this);
 
         //Sensormanager
-        sensorManager = (SensorManager)this.getActivity().getSystemService(Activity.SENSOR_SERVICE);
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+
 
         return view;
     }
@@ -57,14 +54,14 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Sen
     public void onStart(){
         super.onStart();
         Log.d(TAG, "onStart() in TrackFragment");
-        sensorManager.registerListener(this, sensorManager.getSensorList(Sensor.TYPE_LINEAR_ACCELERATION).get(0), SensorManager.SENSOR_DELAY_FASTEST);
+
     }
 
     @Override
     public void onStop(){
         super.onStop();
         Log.d(TAG, "onStop() in TrackFragment");
-        sensorManager.unregisterListener(this);
+
     }
 
     @Override
@@ -88,30 +85,5 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Sen
                 break;
         }
 
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent sensorEvent) {
-        Log.v(TAG, "onSensorChanged in TrackFragment");
-
-        //Variablen für die Geschwindigkeit auf den verschiedenen Achsen
-        Float xA = sensorEvent.values[0];
-        Float yA = sensorEvent.values[1];
-        Float zA = sensorEvent.values[2];
-
-        geschwindigkeitsView.setText(zA.toString());
-
-        /* Berechnung der Geschwindigkeit von m/s in km/h
-        Berechung usw.
-         */
-
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int i) {
-        /* braucht man i.d.R. nicht, muss aber
-           fuer das Interface SensorEventListener
-           vorhanden sein */
-        Log.d(TAG,"onAccuracyChanged in Trackfragment");
     }
 }

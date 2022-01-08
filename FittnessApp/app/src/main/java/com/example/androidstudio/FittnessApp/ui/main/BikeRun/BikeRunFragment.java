@@ -11,7 +11,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +19,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.androidstudio.FittnessApp.R;
-import com.example.androidstudio.FittnessApp.ui.main.Home.HomeFragment;
 
 
 import androidx.activity.OnBackPressedCallback;
@@ -33,7 +31,7 @@ import android.content.Context;
 import de.hsfl.tjwa.blheartrateconnection.HeartSensorController;
 
 
-public class BikeRunFragment extends Fragment implements View.OnClickListener {
+public class BikeRunFragment extends Fragment implements View.OnClickListener, LocationListener {
     private static final String TAG = "hsfBikeRunFragment";
 
     private Button startStopButton;
@@ -59,6 +57,7 @@ public class BikeRunFragment extends Fragment implements View.OnClickListener {
     private int seconds = 0;
     boolean timerStarted = false;
 
+    LocationManager locationManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,39 +83,8 @@ public class BikeRunFragment extends Fragment implements View.OnClickListener {
 
         startTimer();
 
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
-        LocationListener locationListener = new LocationListener() {
-
-            @Override
-            public void onLocationChanged(Location location) {
-                if (timerStarted) {
-                    getSpeed(location);
-                    getDistance(location);
-                }
-            }
-
-            public void getSpeed(Location location) {
-                speed = (location.getSpeed() * 3600 / 1000);
-                String convertedSpeed = String.format("%.2f", speed);
-                velocity.setText(convertedSpeed);
-            }
-
-            public void getDistance(Location currentLocation) {
-                    if(lastLocation != null) {
-                        distanceTraveled += currentLocation.distanceTo(lastLocation) / 1000.0;
-                    }
-                    lastLocation = currentLocation;
-
-                    distance.setText(String.valueOf(distanceTraveled));
-            }
-
-        };
-
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return view;
-        }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
@@ -156,6 +124,9 @@ public class BikeRunFragment extends Fragment implements View.OnClickListener {
                     timerStarted = true;
                     startStopButton.setText("Stop");
                     startStopButton.setBackgroundColor(Color.RED);
+                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, BikeRunFragment.this);
+                    }
                 } else {
                     timerStarted = false;
                     startStopButton.setText("Start");
@@ -221,6 +192,33 @@ public class BikeRunFragment extends Fragment implements View.OnClickListener {
         });
     }
 
+
+
+        @Override
+        public void onLocationChanged(Location location) {
+            if (timerStarted) {
+                Log.v(TAG, "onLocationChanged");
+                getSpeed(location);
+                getDistance(location);
+            }
+        }
+
+        public void getSpeed(Location location) {
+            speed = (location.getSpeed() * 3600 / 1000);
+            String convertedSpeed = String.format("%.2f", speed);
+            velocity.setText(convertedSpeed);
+        }
+
+        public void getDistance(Location currentLocation) {
+            if(lastLocation != null) {
+                distanceTraveled += currentLocation.distanceTo(lastLocation) / 1000.0;
+            }
+            lastLocation = currentLocation;
+
+            distance.setText(String.valueOf(distanceTraveled));
+        }
+
+
     public void calculateCalories(float speed){
         if(speed == 0){
             return;
@@ -254,5 +252,6 @@ public class BikeRunFragment extends Fragment implements View.OnClickListener {
         startStopButton.setText("Start");
         startStopButton.setBackgroundColor(Color.GREEN);
     }
+
 
 }

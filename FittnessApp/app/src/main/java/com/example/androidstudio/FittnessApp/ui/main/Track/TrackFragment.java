@@ -39,6 +39,7 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
 
     //Variablen
     boolean startStopGPS = false;
+    boolean center = true;
 
     //Widgest usw.
     private Button zoomInButton;
@@ -52,6 +53,8 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
     LocationManager locationManager;
     private MapView map;
     private TextView geschwindigkeitsView;
+    private TextView centerDescription;
+    private TextView gpsButtonDescription;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -93,6 +96,8 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
         zoomOutButton = (Button) view.findViewById(R.id.zoomOut);
         centerButton =(Button) view.findViewById(R.id.centerButton);
         gpsButton = (Button) view.findViewById(R.id.gpsButton);
+        centerDescription = (TextView) view.findViewById(R.id.centerDescription);
+        gpsButtonDescription = (TextView) view.findViewById(R.id.gpsButtonDescription);
         zoomOutButton.setOnClickListener(this);
         zoomInButton.setOnClickListener(this);
         centerButton.setOnClickListener(this);
@@ -113,8 +118,7 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
         map.getOverlays().add(this.mCompassOverlay);
         this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(ctx),map);
         map.getOverlays().add(this.mLocationOverlay);
-
-
+        this.mLocationOverlay.enableFollowLocation();
         return view;
     }
 
@@ -137,7 +141,15 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
             case R.id.centerButton:
                 Log.d(TAG, "zentrierenButton in TrackFragment");
                 //Button zum zentrieren der Karte
-
+                if(center) {
+                    this.mLocationOverlay.disableFollowLocation();
+                    center = false;
+                    centerDescription.setText("Dezentriert");
+                } else {
+                    this.mLocationOverlay.enableFollowLocation();
+                    centerDescription.setText("Zentriert");
+                    center = true;
+                }
                 break;
 
             case R.id.gpsButton:
@@ -150,11 +162,15 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
                     }
                     this.mLocationOverlay.enableMyLocation();
                     startStopGPS = true;
+                    gpsButtonDescription.setText("GPS aktiv");
+                    gpsButton.setText("Stop");
                 } else {
                     Log.d(TAG,"GPS AUS");
                     locationManager.removeUpdates(this);
                     this.mLocationOverlay.disableMyLocation();
                     startStopGPS = false;
+                    gpsButtonDescription.setText("GPS inaktiv");
+                    gpsButton.setText("Start");
                 }
                 break;
         }
@@ -162,12 +178,14 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
     @Override
     public void onResume() {
         super.onResume();
+        locationManager.removeUpdates(this);
         map.onResume(); //needed for compass, my location overlays, v6.0.0 and up
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        locationManager.removeUpdates(this);
         map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
     }
 
@@ -178,7 +196,6 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
             Log.v(TAG, "onLocationChanged");
             getSpeed(location);
             startPoint = new GeoPoint(location);
-            mapController.setCenter(startPoint);
     }
 
     public void getSpeed(Location location) {

@@ -2,15 +2,29 @@ package com.example.androidstudio.FittnessApp.ui.main.Track;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
+import android.content.pm.PackageManager;
+import android.preference.PreferenceManager;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import org.osmdroid.api.IMapController;
+import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.compass.CompassOverlay;
+import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
+import org.osmdroid.views.overlay.gridlines.LatLonGridlineOverlay2;
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
+
+import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.preference.PreferenceManager;
@@ -20,25 +34,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.views.MapView;
 
 import com.example.androidstudio.FittnessApp.R;
 
 
 public class TrackFragment extends Fragment implements View.OnClickListener, LocationListener {
-
     private static final String TAG = "trackFragment";
-    private Button zurückButton;
 
-    private Button zoomButton;
+
+    private Button zoomInButton;
+    private Button zoomOutButton;
     private Button centerButton;
     private Button gpsButton;
+    private CompassOverlay mCompassOverlay;
+    private MyLocationNewOverlay mLocationOverlay;
 
-    private MapView map;
+    private MapView map = null;
 
     private TextView geschwindigkeitsView;
     @Override
@@ -46,71 +58,65 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
         Log.d(TAG, "onCreateView():  in TrackFragment");
 
         View view = inflater.inflate(R.layout.track_fragment, container, false);
-        geschwindigkeitsView = (TextView) view.findViewById(R.id.kmh);
+        //geschwindigkeitsView = (TextView) view.findViewById(R.id.kmh);
 
         //Buttons anlegen und aktivieren
-        zoomButton = (Button) view.findViewById(R.id.zoom);
-        centerButton =(Button) view.findViewById(R.id.zentrieren);
+        zoomInButton = (Button) view.findViewById(R.id.zoomIn);
+        zoomOutButton = (Button) view.findViewById(R.id.zoomOut);
+        centerButton =(Button) view.findViewById(R.id.centerButton);
         gpsButton = (Button) view.findViewById(R.id.gpsButton);
-        zoomButton.setOnClickListener(this);
+        zoomOutButton.setOnClickListener(this);
+        zoomInButton.setOnClickListener(this);
         centerButton.setOnClickListener(this);
         gpsButton.setOnClickListener(this);
 
-        //Map
-        Context ctx = getActivity().getApplicationContext();
+        Context ctx = getContext().getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
-        getActivity().setContentView(R.layout.track_fragment);
 
-        map = (MapView) view.findViewById(R.id.mapview);
+        //Map
+        map = (MapView) view.findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);
-
+        IMapController mapController = map.getController();
+        mapController.setZoom(9.5);
+        GeoPoint startPoint = new GeoPoint(48.8583, 2.2944);
+        mapController.setCenter(startPoint);
+        this.mCompassOverlay = new CompassOverlay(ctx, new InternalCompassOrientationProvider(ctx), map);
+        this.mCompassOverlay.enableCompass();
+        map.getOverlays().add(this.mCompassOverlay);
 
 
         return view;
     }
 
-    @Override
-    public void onStart(){
-        super.onStart();
-        Log.d(TAG, "onStart() in TrackFragment");
-
-    }
-
-    @Override
-    public void onStop(){
-        super.onStop();
-        Log.d(TAG, "onStop() in TrackFragment");
-
-    }
 
     @Override
     public void onClick(View view) {
         Log.d(TAG, "onClick():  in TrackFragment");
         switch (view.getId()){
-            case R.id.zoom:
-                Log.d(TAG, "zoomButton in TrackFragment");
+            case R.id.zoomIn:
+                Log.d(TAG, "zoomIn in TrackFragment");
                 //Button zum zoomen der Karte
 
                 break;
-            case R.id.zentrieren:
+
+            case R.id.zoomOut:
+                Log.d(TAG, "zoomOut in TrackFragment");
+
+                break;
+
+            case R.id.centerButton:
                 Log.d(TAG, "zentrierenButton in TrackFragment");
                 //Button zum zentrieren der Karte
 
                 break;
+
             case R.id.gpsButton:
                 Log.d(TAG,"Start/Stop Button in TrackFragment");
                 //Button zum starten des Trackings
 
                 break;
         }
-
     }
-
-    @Override
-    public void onLocationChanged(@NonNull Location location) {
-
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -129,5 +135,13 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
         //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         //Configuration.getInstance().save(this, prefs);
         map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
+    }
+
+
+
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+
     }
 }

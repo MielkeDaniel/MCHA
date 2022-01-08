@@ -27,7 +27,11 @@
     <fragment
         android:id="@+id/bikeRunFragment"
         android:name="com.example.androidstudio.FittnessApp.ui.main.BikeRun.BikeRunFragment"
-        android:label="BikeRunFragment" />
+        android:label="BikeRunFragment" >
+        <action
+            android:id="@+id/action_bikeRunFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/trackFragment"
         android:name="com.example.androidstudio.FittnessApp.ui.main.Track.TrackFragment"

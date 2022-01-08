@@ -22,6 +22,7 @@
         <action
             android:id="@+id/action_homeFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/bikeRunFragment"
@@ -35,7 +36,11 @@
     <fragment
         android:id="@+id/cardioFragment"
         android:name="com.example.androidstudio.FittnessApp.ui.main.Cardio.CardioFragment"
-        android:label="CardioFragment" />
+        android:label="CardioFragment" >
+        <action
+            android:id="@+id/action_cardioFragment_to_home_fragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.androidstudio.FittnessApp.ui.main.Settings.SettingsFragment"

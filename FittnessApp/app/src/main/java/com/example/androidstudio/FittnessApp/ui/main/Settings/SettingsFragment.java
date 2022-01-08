@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,11 +35,15 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     private static String WEIGHT = "WEIGHT";
     private static String HEIGHT = "HEIGHT";
     private static String EMAIL = "EMAIL";
+    private static String MALE = "MALE";
+    private static String FEMALE = "FEMALE";
+    private static String DIVERS = "DIVERS";
     private static int request_Code = 1;
     Button btButton;
     HeartSensorController permissionHeartSensorController;
     BluetoothDevice selectedHeartRateSensor;
     EditText nameInput,  ageInput, weightInput, heightInput, emailInput;
+    RadioButton genderInputM, genderInputF, genderInputD;
     TextView connectionState;
 
     @Override
@@ -52,13 +58,16 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         heightInput = (EditText) view.findViewById(R.id.heightInput);
         emailInput = (EditText) view.findViewById(R.id.emailInput);
         connectionState = (TextView) view.findViewById(R.id.connectionState);
+        genderInputM = (RadioButton) view.findViewById(R.id.genderM);
+        genderInputF = (RadioButton) view.findViewById(R.id.genderF);
+        genderInputD = (RadioButton) view.findViewById(R.id.genderD);
 
         btButton = (Button) view.findViewById(R.id.btButton);
         btButton.setOnClickListener(this);
 
         loadUserFromPref();
 
-        if (((MainActivity) getActivity()).getHeartSensorController().isConnected()) {
+        if (((MainActivity) getActivity()).getIsConnected()) {
             connectionState.setText("Verbunden");
         }
         return view;
@@ -125,6 +134,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         editor.putString(WEIGHT, weightInput.getText().toString());
         editor.putString(HEIGHT, heightInput.getText().toString());
         editor.putString(EMAIL, emailInput.getText().toString());
+        editor.putBoolean(MALE, genderInputM.isChecked());
+        editor.putBoolean(DIVERS, genderInputD.isChecked());
+        editor.putBoolean(FEMALE, genderInputF.isChecked());
         editor.apply();
     }
 
@@ -136,5 +148,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         weightInput.setText(sharedPreferences.getString(WEIGHT, ""));
         heightInput.setText(sharedPreferences.getString(HEIGHT, ""));
         emailInput.setText(sharedPreferences.getString(EMAIL, ""));
+        genderInputM.setChecked(sharedPreferences.getBoolean(MALE, false));
+        genderInputF.setChecked(sharedPreferences.getBoolean(FEMALE, false));
+        genderInputD.setChecked(sharedPreferences.getBoolean(DIVERS, false));
     }
 }

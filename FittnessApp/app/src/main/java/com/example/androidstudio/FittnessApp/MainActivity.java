@@ -27,7 +27,9 @@ public class MainActivity extends AppCompatActivity {
     private String currentAdapter = "";
     private BluetoothDevice selectedHeartRateSensor;
     private BluetoothManager bluetoothManager;
+    private boolean isConnected = false;
     private static String PREVMACADRESS = "PREVMACADRESS";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             Log.v(TAG, "STARTING BLUETOOTH");
             selectedHeartRateSensor = bluetoothManager.getAdapter() .getRemoteDevice(currentAdapter);
             this.heartSensorController.startBluetooth(selectedHeartRateSensor);
+            this.isConnected = true;
         }
     }
 
@@ -110,9 +113,14 @@ public class MainActivity extends AppCompatActivity {
     public void startBluetoothFromFragment() {
         Log.v(TAG, "STARTING BLUETOOTH");
         this.heartSensorController.startBluetooth(selectedHeartRateSensor);
+        this.isConnected = true;
     }
 
     public HeartSensorController getHeartSensorController() {
         return this.heartSensorController;
+    }
+
+    public boolean getIsConnected() {
+        return this.isConnected;
     }
 }

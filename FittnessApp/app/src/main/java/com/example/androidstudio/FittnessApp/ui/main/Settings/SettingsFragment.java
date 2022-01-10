@@ -29,6 +29,8 @@ import de.hsfl.tjwa.blheartrateconnection.scan.LeDeviceScanActivity;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener {
 
+
+    // Shared Preferences Keys
     private static String TAG = "settingsFragment";
     private static String NAME = "NAME";
     private static String AGE = "AGE";
@@ -38,13 +40,19 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     private static String MALE = "MALE";
     private static String FEMALE = "FEMALE";
     private static String DIVERS = "DIVERS";
+
     private static int request_Code = 1;
+
+    // XML Objects
     Button btButton;
-    HeartSensorController permissionHeartSensorController;
-    BluetoothDevice selectedHeartRateSensor;
     EditText nameInput,  ageInput, weightInput, heightInput, emailInput;
     RadioButton genderInputM, genderInputF, genderInputD;
     TextView connectionState;
+
+
+    //Heartsensor Objects
+    HeartSensorController permissionHeartSensorController;
+    BluetoothDevice selectedHeartRateSensor;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,6 +74,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         btButton.setOnClickListener(this);
 
         loadUserFromPref();
+
 
         if (((MainActivity) getActivity()).getIsConnected()) {
             connectionState.setText("Verbunden");

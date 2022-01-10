@@ -54,8 +54,13 @@ public class MainActivity extends AppCompatActivity {
         if (this.currentAdapter.length() > 0) {
             Log.v(TAG, "STARTING BLUETOOTH");
             selectedHeartRateSensor = bluetoothManager.getAdapter() .getRemoteDevice(currentAdapter);
-            this.heartSensorController.startBluetooth(selectedHeartRateSensor);
+
             this.isConnected = true;
+
+            if (heartSensorController.getHeartRate().getValue() == null) {
+                this.heartSensorController.stopAll();
+                    this.heartSensorController.startSimulation(1000);
+            }
         }
     }
 

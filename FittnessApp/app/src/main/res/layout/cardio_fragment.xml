@@ -52,6 +52,16 @@
         app:layout_constraintHorizontal_bias="0.088"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <com.example.androidstudio.FittnessApp.ui.main.Cardio.MyView
+        android:id="@+id/heartrateView"
+        android:layout_width="1000px"
+        android:layout_height="200px"
+        android:layout_marginTop="560dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.609"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/herzfrequenz"
         android:layout_width="wrap_content"
@@ -189,18 +199,6 @@
         app:layout_constraintStart_toEndOf="@+id/mhf"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.619" />
-
-
-    <View
-        android:id="@+id/zielkorridore"
-        android:layout_width="361dp"
-        android:layout_height="92dp"
-        android:background="#2080A6"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.844" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

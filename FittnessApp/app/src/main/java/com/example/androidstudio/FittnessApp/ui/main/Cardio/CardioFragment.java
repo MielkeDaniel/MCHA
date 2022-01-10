@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.androidstudio.FittnessApp.MainActivity;
 import com.example.androidstudio.FittnessApp.R;
 
 import androidx.activity.OnBackPressedCallback;
@@ -31,9 +32,21 @@ public class CardioFragment extends Fragment implements View.OnClickListener {
     Button butpauseResume,butstartStop;
     private boolean timerunning;
     private float calories;
-    private int mittlereheartrate,totalsSumm, sec, seconds, zeahler;
-
+    private int totalHeartRate, sec, seconds, mittlereheartrate;
+    private String age;
+    private String weight;
+    private float met =6; // MET Maßeinheit für die Intensität von Bewegung oder Sport (Rudern mit Rudergerät)
+    private boolean ismen;
+    private boolean iswomen;
+    private boolean isdev;
+    float  proHrs;
+    float proSec;
+    private int heartRate;
     HeartSensorController heartSensorController = new HeartSensorController(getActivity());
+    static private MyView viewKorridor;
+    private int heartRateZeahler=0;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -47,12 +60,27 @@ public class CardioFragment extends Fragment implements View.OnClickListener {
         textviewKcal= (TextView) view.findViewById(R.id.tvKcal);
         tv_Heartrate= (TextView) view.findViewById(R.id.tvHerzfrequenz);
         tv_MittlereHerz= (TextView) view.findViewById(R.id.tvMittlereherz);
-
         butpauseResume = (Button) view.findViewById(R.id.butpause);
         butpauseResume.setOnClickListener(this);
         butstartStop = (Button) view.findViewById(R.id.butstart);
         butstartStop.setOnClickListener(this);
         heartSensorController.startSimulation(1000);
+
+        viewKorridor =  getActivity().findViewById(R.id.heartrateView);
+        viewKorridor = new MyView(getActivity().getApplicationContext());
+
+
+
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("SHARED_PREFS", Context.MODE_PRIVATE);
+        age=sharedPreferences.getString("AGE", String.valueOf(0));
+        weight=sharedPreferences.getString("WEIGHT",String.valueOf(0));
+        ismen=sharedPreferences.getBoolean("MALE", false);
+        iswomen=sharedPreferences.getBoolean("FAMALE",false);
+        isdev=sharedPreferences.getBoolean("DIVERS", false);
+
+
+
         //loadUserFromPref();
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
@@ -82,6 +110,8 @@ public class CardioFragment extends Fragment implements View.OnClickListener {
 
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getActivity(), callback);
+
+        Log.v(TAG,"TTTTTTTTTTTTT"+ String.valueOf(((MainActivity) getActivity()).getHeartSensorController().getHeartRate().getValue()));
         return view;
     }
 
@@ -92,13 +122,12 @@ public class CardioFragment extends Fragment implements View.OnClickListener {
             if( ! butstartStop.getText().equals("Stop")) {
                 timerunning=true;
                 startTimer();
-                Heartrate();
+
                 butstartStop.setText("Stop");
             }
             else{
                 timerunning=false;
                 butstartStop.setText("Start");
-                seconds=0;
 
 
             }
@@ -123,6 +152,7 @@ public class CardioFragment extends Fragment implements View.OnClickListener {
                 int mins= (seconds%3600)/60;
                 sec= seconds%60;
                 Calories();
+
                 textviewKcal.setText(" "+ calories);
                 String time = String.format("%02d:%02d:%2d", hrs, mins,sec);
                 timertext.setText(time);
@@ -130,79 +160,58 @@ public class CardioFragment extends Fragment implements View.OnClickListener {
                     seconds++;
                 }
                 handler.postDelayed(this, 1000);
+
+                Heartrate();
+
             }
         });
     }
+
     private void Calories(){
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("SHARED_PREFS", Context.MODE_PRIVATE);
-        //alter=getActivity().getString(AGE,"");
-        int calorie=152;
-        int time=15;
-        float proSec;
+        if (ismen==true){
+            proHrs= (float) (0.9*1*Float.parseFloat(weight)*met); //Calores in 1 sec
+            proSec=proHrs/3600;
+            calories=proSec*sec;
 
-        float proMinute= calorie/time;
-        proSec= proMinute/60;
-        calories = proSec*sec;
+        }
+        else if(iswomen==true){
 
+            proSec=1*(1/3600)*Float.parseFloat(weight)*met;
+            proSec=proHrs/3600;
+            calories=proSec*sec;
+
+        }
+        else if (isdev==true){
+            proSec= (float) (1*(1/36)*Double.parseDouble(weight)*met);
+            proSec=proHrs/3600;
+            calories=proSec*sec;
+
+        }
     }
+
     private void Heartrate(){
 
-        Handler handler= new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                LiveData<Integer> liveData =
-                        heartSensorController.getHeartRate();
-                Integer heartRate = liveData.getValue();
-                Log.d(TAG, "My heart rate is: " + heartRate);
-                handler.post(() ->
-                        tv_Heartrate.setText(String.valueOf(heartRate)));
 
-                handler.postDelayed(this, 1000);
-                int[] intArray = new int[100];
-                intArray[zeahler]=heartRate;
-                zeahler++;
+        heartRate = ((MainActivity) getActivity()).getHeartSensorController().getHeartRate().getValue();
 
-                //Mittlere Herzfrequenz berechnen
-                for(int i=0;i< intArray.length; i++){
-                    totalsSumm= totalsSumm+intArray[i];
-                    Log.d(TAG, "Array: " + intArray[i]);
-                    mittlereheartrate= totalsSumm/(zeahler);
-                    Log.d(TAG, "Total wäre: " + mittlereheartrate);
-                    String stringmittlereheartrate = String.valueOf(mittlereheartrate);
+        heartRateZeahler++;
 
-                    tv_MittlereHerz.setText(stringmittlereheartrate);
-                }
+        Log.d(TAG, "My heart rate is: " + heartRate);
+        tv_Heartrate.setText(String.valueOf(heartRate+" bqm"));
 
-            }
+        viewKorridor.setHeartRate(heartRate);
 
-        });
+        totalHeartRate+=heartRate;
+        mittlereheartrate=totalHeartRate/heartRateZeahler;
+        tv_MittlereHerz.setText(String.valueOf(mittlereheartrate+" bqm"));
+
+        viewKorridor.invalidate();
+
 
     }
-
 
 }
 
 
-
-    //@Override
-   // public void onStop() {
-       // super.onStop();
-        //saveInPref();
-    //}
-    //public void saveInPref() {
-        //Log.v(TAG, "Saving contents");
-        //SharedPreferences sharedPreferences = getActivity().getSharedPreferences("SHARED_PREFS", Context.MODE_PRIVATE);
-       // SharedPreferences.Editor editor = sharedPreferences.edit();
-       // editor.putString(TIME, timertext.getText().toString());
-
-       // editor.apply();
-    //}
-   // public void loadUserFromPref() {
-       // Log.v(TAG, "Loading Preferences");
-       // SharedPreferences sharedPreferences = getActivity().getSharedPreferences("SHARED_PREFS", Context.MODE_PRIVATE);
-        //timertext.setText(sharedPreferences.getString(TIME, ""));
-
-    //}
 
 

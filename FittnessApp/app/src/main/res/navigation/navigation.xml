@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_homeFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_surfFragment"
+            app:destination="@id/action_homeFragment_to_surfFragment" />
     </fragment>
     <fragment
         android:id="@+id/bikeRunFragment"
@@ -44,4 +47,13 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.androidstudio.FittnessApp.ui.main.Settings.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/action_homeFragment_to_surfFragment"
+        android:name="com.example.androidstudio.FittnessApp.ui.main.WindSurf.SurfFragment"
+        android:label="surf_fragment"
+        tools:layout="@layout/surf_fragment" >
+        <action
+            android:id="@+id/action_action_homeFragment_to_surfFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>

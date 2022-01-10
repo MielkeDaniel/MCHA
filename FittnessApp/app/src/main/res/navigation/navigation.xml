@@ -41,7 +41,11 @@
         android:id="@+id/trackFragment"
         android:name="com.example.androidstudio.FittnessApp.ui.main.Track.TrackFragment"
         android:label="track_fragment"
-        tools:layout="@layout/track_fragment" />
+        tools:layout="@layout/track_fragment" >
+        <action
+            android:id="@+id/action_trackFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/cardioFragment"
         android:name="com.example.androidstudio.FittnessApp.ui.main.Cardio.CardioFragment"

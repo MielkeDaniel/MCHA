@@ -6,11 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
@@ -38,9 +35,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         settingsCard = (CardView) view.findViewById(R.id.settingsCard);
         cardioCard = (CardView) view.findViewById(R.id.cardioCard);
         bicycleCard= (CardView) view.findViewById(R.id.bicycleCard);
+        surfCard= (CardView) view.findViewById(R.id.surfCard);
 
 
         trackCard.setOnClickListener(this);
+
+        surfCard.setOnClickListener(this);
         settingsCard.setOnClickListener(this);
         cardioCard.setOnClickListener(this);
         bicycleCard.setOnClickListener(this);
@@ -69,6 +69,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Log.v(TAG, "bicycleCard was clicked");
                 NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_bikeRunFragment);
                 break;
+            case R.id.surfCard:
+                Log.v(TAG, "surfCard was clicked");
+                NavHostFragment.findNavController(this).navigate(R.id.action_homeFragment_to_surfFragment);
+                break;
+
 
         }
     }

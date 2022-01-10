@@ -17,6 +17,7 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
@@ -31,6 +32,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import com.example.androidstudio.FittnessApp.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class TrackFragment extends Fragment implements View.OnClickListener, LocationListener {
@@ -48,13 +52,15 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
     private Button gpsButton;
     private CompassOverlay mCompassOverlay;
     private MyLocationNewOverlay mLocationOverlay;
-    private GeoPoint startPoint;
+    private GeoPoint point;
     private IMapController mapController;
     LocationManager locationManager;
     private MapView map;
     private TextView geschwindigkeitsView;
     private TextView centerDescription;
     private TextView gpsButtonDescription;
+    private  Polyline line;
+    private List<GeoPoint> geoPoints;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -111,14 +117,17 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
         map.setTileSource(TileSourceFactory.MAPNIK);
         mapController = map.getController();
         mapController.setZoom(8);
-        startPoint = new GeoPoint(48.8583, 2.2944);
-        mapController.setCenter(startPoint);
+        point = new GeoPoint(52.106701, 10.198094);
+        mapController.setCenter(point);
         this.mCompassOverlay = new CompassOverlay(ctx, new InternalCompassOrientationProvider(ctx), map);
         this.mCompassOverlay.enableCompass();
         map.getOverlays().add(this.mCompassOverlay);
         this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(ctx),map);
         map.getOverlays().add(this.mLocationOverlay);
-        this.mLocationOverlay.enableFollowLocation();
+
+        geoPoints = new ArrayList<>();
+        //add your points here
+        line = new Polyline();
         return view;
     }
 
@@ -164,6 +173,7 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
                     startStopGPS = true;
                     gpsButtonDescription.setText("GPS aktiv");
                     gpsButton.setText("Stop");
+                    this.mLocationOverlay.enableFollowLocation();
                 } else {
                     Log.d(TAG,"GPS AUS");
                     locationManager.removeUpdates(this);
@@ -178,6 +188,7 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
     @Override
     public void onResume() {
         super.onResume();
+        this.mLocationOverlay.disableMyLocation();
         locationManager.removeUpdates(this);
         map.onResume(); //needed for compass, my location overlays, v6.0.0 and up
     }
@@ -185,8 +196,23 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
     @Override
     public void onPause() {
         super.onPause();
+        this.mLocationOverlay.disableMyLocation();
         locationManager.removeUpdates(this);
         map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        this.mLocationOverlay.disableMyLocation();
+        locationManager.removeUpdates(this);
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        this.mLocationOverlay.disableMyLocation();
+        locationManager.removeUpdates(this);
     }
 
 
@@ -195,7 +221,13 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
     public void onLocationChanged(Location location) {
             Log.v(TAG, "onLocationChanged");
             getSpeed(location);
-            startPoint = new GeoPoint(location);
+            point = new GeoPoint(location);
+            geoPoints.add(point);
+
+            if(geoPoints.size() >= 2) {
+                line.setPoints(geoPoints);
+                map.getOverlayManager().add(line);
+            }
     }
 
     public void getSpeed(Location location) {

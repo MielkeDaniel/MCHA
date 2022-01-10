@@ -19,7 +19,6 @@ import com.example.androidstudio.FittnessApp.R;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.navigation.fragment.NavHostFragment;
 
 import de.hsfl.tjwa.blheartrateconnection.HeartSensorController;
@@ -33,12 +32,9 @@ public class CardioFragment extends Fragment implements View.OnClickListener {
     private boolean timerunning;
     private float calories;
     private int totalHeartRate, sec, seconds, mittlereheartrate;
-    private String age;
     private String weight;
-    private float met =6; // MET Maßeinheit für die Intensität von Bewegung oder Sport (Rudern mit Rudergerät)
-    private boolean ismen;
-    private boolean iswomen;
-    private boolean isdev;
+    private float met = 6; // MET Maßeinheit für die Intensität von Bewegung oder Sport (Rudern mit Rudergerät)
+    private String gender;
     float  proHrs;
     float proSec;
     private int heartRate;
@@ -66,18 +62,11 @@ public class CardioFragment extends Fragment implements View.OnClickListener {
         butstartStop.setOnClickListener(this);
         heartSensorController.startSimulation(1000);
 
-        viewKorridor =  getActivity().findViewById(R.id.heartrateView);
-        viewKorridor = new MyView(getActivity().getApplicationContext());
-
-
-
+        viewKorridor = view.findViewById(R.id.heartrateView);
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("SHARED_PREFS", Context.MODE_PRIVATE);
-        age=sharedPreferences.getString("AGE", String.valueOf(0));
-        weight=sharedPreferences.getString("WEIGHT",String.valueOf(0));
-        ismen=sharedPreferences.getBoolean("MALE", false);
-        iswomen=sharedPreferences.getBoolean("FAMALE",false);
-        isdev=sharedPreferences.getBoolean("DIVERS", false);
+        weight = sharedPreferences.getString("WEIGHT",String.valueOf(0));
+        gender = sharedPreferences.getString("GENDER", "");
 
 
 
@@ -111,7 +100,7 @@ public class CardioFragment extends Fragment implements View.OnClickListener {
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getActivity(), callback);
 
-        Log.v(TAG,"TTTTTTTTTTTTT"+ String.valueOf(((MainActivity) getActivity()).getHeartSensorController().getHeartRate().getValue()));
+        Log.v(TAG,"TTTTTTTTTTTTT" + String.valueOf(((MainActivity) getActivity()).getHeartSensorController().getHeartRate().getValue()));
         return view;
     }
 
@@ -122,14 +111,11 @@ public class CardioFragment extends Fragment implements View.OnClickListener {
             if( ! butstartStop.getText().equals("Stop")) {
                 timerunning=true;
                 startTimer();
-
                 butstartStop.setText("Stop");
             }
-            else{
+            else {
                 timerunning=false;
                 butstartStop.setText("Start");
-
-
             }
         }
         else if (view.getId() == R.id.butpause){
@@ -144,52 +130,48 @@ public class CardioFragment extends Fragment implements View.OnClickListener {
         }
     }
     private void startTimer(){
-        Handler handler= new Handler();
+        Handler handler = new Handler();
         handler.post(new Runnable() {
             @Override
             public void run() {
                 int hrs = seconds/3600;
                 int mins= (seconds%3600)/60;
                 sec= seconds%60;
-                Calories();
-
-                textviewKcal.setText(" "+ calories);
                 String time = String.format("%02d:%02d:%2d", hrs, mins,sec);
-                timertext.setText(time);
                 if (timerunning){
                     seconds++;
+                    Calories();
+                    textviewKcal.setText(" "+ calories);
+                    timertext.setText(time);
+                    Heartrate();
                 }
                 handler.postDelayed(this, 1000);
-
-                Heartrate();
-
             }
         });
     }
 
     private void Calories(){
-        if (ismen==true){
-            proHrs= (float) (0.9*1*Float.parseFloat(weight)*met); //Calores in 1 sec
-            proSec=proHrs/3600;
-            calories=proSec*sec;
+        if (gender.equals("MALE")){
+            proHrs = (float) (0.9*1*Float.parseFloat(weight)*met); //Calores in 1 sec
+            proSec = proHrs/3600;
+            calories = proSec*sec;
+        }
+        else if(gender.equals("FEMALE")){
+            proHrs = 1 * (1/3600) * Float.parseFloat(weight) * met;
+            proSec = proHrs/3600;
+            calories = proSec*sec;
+
+            Log.v(TAG, "CALORIES:" + calories + " proHrs:" + proHrs + " proSec:" + proSec + " met:" + met + " weight:" + Float.parseFloat(weight));
 
         }
-        else if(iswomen==true){
-
-            proSec=1*(1/3600)*Float.parseFloat(weight)*met;
-            proSec=proHrs/3600;
-            calories=proSec*sec;
-
-        }
-        else if (isdev==true){
-            proSec= (float) (1*(1/36)*Double.parseDouble(weight)*met);
-            proSec=proHrs/3600;
-            calories=proSec*sec;
-
+        else if (gender.equals("DIVERS")){
+            proHrs = (float) (0.9*1*Float.parseFloat(weight)*met); //Calores in 1 sec
+            proSec = proHrs/3600;
+            calories = proSec*sec;
         }
     }
 
-    private void Heartrate(){
+    private void Heartrate() {
 
 
         heartRate = ((MainActivity) getActivity()).getHeartSensorController().getHeartRate().getValue();

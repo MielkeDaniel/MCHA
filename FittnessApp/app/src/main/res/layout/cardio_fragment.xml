@@ -56,11 +56,11 @@
         android:id="@+id/heartrateView"
         android:layout_width="1000px"
         android:layout_height="200px"
-        android:layout_marginTop="560dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.609"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/herzfrequenz" />
 
     <TextView
         android:id="@+id/herzfrequenz"

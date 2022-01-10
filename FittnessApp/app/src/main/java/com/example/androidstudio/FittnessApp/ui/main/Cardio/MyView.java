@@ -60,7 +60,7 @@ public class MyView extends View {
     protected void onDraw(Canvas canvas)   // Hier die Grafik ausgeben
     {
         super.onDraw(canvas);
-        Log.v(TAG, "onDraw():  ");
+        Log.v(TAG, "onDraw():  IUPIUGPGUPIGPIGUPIGUIP");
 
 
         rView.set(0, 0, this.getWidth(), this.getHeight());
@@ -75,13 +75,12 @@ public class MyView extends View {
         canvas.drawText("50 bqm", 10, 180, myPaint);
         canvas.drawCircle(100, heartRatePosY, 10, myPaint);
 
-
         Log.v(TAG, "onDraw(canvas).......:   "+ heartRatePosY);
 
     }
 
     public void setHeartRate(int heartRate) {
-        heartRatePosY=heartRate;
+        heartRatePosY = heartRate;
         Log.v(TAG, "setHeartRate().......:  "+ heartRatePosY);
         invalidate();
 

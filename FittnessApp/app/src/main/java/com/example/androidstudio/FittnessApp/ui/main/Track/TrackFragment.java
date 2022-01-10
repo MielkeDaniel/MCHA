@@ -123,18 +123,20 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
         point = new GeoPoint(52.106701, 10.198094);
         mapController.setCenter(point);
         //Compassoverlay
-        this.mCompassOverlay = new CompassOverlay(ctx, new InternalCompassOrientationProvider(ctx), map);
-        this.mCompassOverlay.enableCompass();
-        map.getOverlays().add(this.mCompassOverlay);
+        mCompassOverlay = new CompassOverlay(ctx, new InternalCompassOrientationProvider(ctx), map);
+        mCompassOverlay.enableCompass();
+        map.getOverlays().add(mCompassOverlay);
         //MyLocationOverlay
-        this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(ctx),map);
-        map.getOverlays().add(this.mLocationOverlay);
+        mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(ctx),map);
+        mLocationOverlay.disableMyLocation();
+        locationManager.removeUpdates(this);
+        map.getOverlays().add(mLocationOverlay);
         //Polylinevariablen
         geoPoints = new ArrayList<>();
         line = new Polyline();
         return view;
     }
-    
+
     @Override
     public void onClick(View view) {
         Log.d(TAG, "onClick():  in TrackFragment");
@@ -172,15 +174,15 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
                     if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, TrackFragment.this);
                     }
-                    this.mLocationOverlay.enableMyLocation();
+                    mLocationOverlay.enableMyLocation();
                     startStopGPS = true;
                     gpsButtonDescription.setText("GPS aktiv");
                     gpsButton.setText("Stop");
-                    this.mLocationOverlay.enableFollowLocation();
+                    mLocationOverlay.enableFollowLocation();
                 } else {
                     Log.d(TAG,"GPS AUS");
                     locationManager.removeUpdates(this);
-                    this.mLocationOverlay.disableMyLocation();
+                    mLocationOverlay.disableMyLocation();
                     startStopGPS = false;
                     gpsButtonDescription.setText("GPS inaktiv");
                     gpsButton.setText("Start");
@@ -192,7 +194,7 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
     public void onResume() {
         Log.d(TAG, "onResume() in TrackFragment");
         super.onResume();
-        this.mLocationOverlay.disableMyLocation();
+        mLocationOverlay.disableMyLocation();
         locationManager.removeUpdates(this);
         map.onResume(); //needed for compass, my location overlays, v6.0.0 and up
     }
@@ -201,7 +203,7 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
     public void onPause() {
         Log.d(TAG, "onPause() in TrackFragment");
         super.onPause();
-        this.mLocationOverlay.disableMyLocation();
+        mLocationOverlay.disableMyLocation();
         locationManager.removeUpdates(this);
         map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
     }
@@ -210,7 +212,7 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
     public void onStart(){
         Log.d(TAG, "onStart() in TrackFragment");
         super.onStart();
-        this.mLocationOverlay.disableMyLocation();
+        mLocationOverlay.disableMyLocation();
         locationManager.removeUpdates(this);
     }
 
@@ -218,7 +220,7 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
     public void onStop(){
         Log.d(TAG, "onStop() in TrackFragment");
         super.onStop();
-        this.mLocationOverlay.disableMyLocation();
+        mLocationOverlay.disableMyLocation();
         locationManager.removeUpdates(this);
     }
 

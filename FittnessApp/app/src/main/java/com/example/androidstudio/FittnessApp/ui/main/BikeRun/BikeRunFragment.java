@@ -137,6 +137,7 @@ public class BikeRunFragment extends Fragment implements View.OnClickListener, L
                 backAlert.setNeutralButton("Abbrechen", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        Log.d(TAG, "cancelled");
                         //do nothing
                     }
                 });
@@ -163,6 +164,7 @@ public class BikeRunFragment extends Fragment implements View.OnClickListener, L
                     dataAlert.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            Log.d(TAG, "going to settingsFragment");
                             NavHostFragment.findNavController(getParentFragment()).navigate(R.id.action_bikeRunFragment_to_settingsFragment);
                         }
                     });
@@ -203,6 +205,7 @@ public class BikeRunFragment extends Fragment implements View.OnClickListener, L
                 resetAlert.setNeutralButton("Abbrechen", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        Log.d(TAG, "canceled");
                         //do nothing
                     }
                 });
@@ -251,7 +254,7 @@ public class BikeRunFragment extends Fragment implements View.OnClickListener, L
                 String time = String.format("%02d, %02d, %02d", hours, mins, secs);
                 duration.setText(time);
                 if(timerStarted){
-                    //erhöhung der Zeit im Sekundentakt, berechnung der durchschnittlichen Werte, Kalorien und setzen der Textviews
+                    //erhöhung der Zeit im Sekundentakt, Berechnung der durchschnittlichen Werte, Kalorien und setzen der Textviews
                     seconds++;
 
                     int heartrate = heartSensorController.getHeartRate().getValue();

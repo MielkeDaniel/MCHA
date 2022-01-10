@@ -59,6 +59,7 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
     private MapView map;
     private  Polyline line;
     private List<GeoPoint> geoPoints;
+    private Context ctx;
     //Textviews
     private TextView geschwindigkeitsView;
     private TextView centerDescription;
@@ -111,7 +112,7 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
         centerButton.setOnClickListener(this);
         gpsButton.setOnClickListener(this);
 
-        Context ctx = getContext().getApplicationContext();
+        ctx = getContext().getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 
         //Map
@@ -126,11 +127,6 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
         mCompassOverlay = new CompassOverlay(ctx, new InternalCompassOrientationProvider(ctx), map);
         mCompassOverlay.enableCompass();
         map.getOverlays().add(mCompassOverlay);
-        //MyLocationOverlay
-        mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(ctx),map);
-        mLocationOverlay.disableMyLocation();
-        locationManager.removeUpdates(this);
-        map.getOverlays().add(mLocationOverlay);
         //Polylinevariablen
         geoPoints = new ArrayList<>();
         line = new Polyline();
@@ -171,18 +167,25 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
                 //Button zum starten des Trackings
                 if ( ! startStopGPS) {
                     Log.d(TAG,"GPS AN");
+
                     if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, TrackFragment.this);
                     }
+
+                    //Location-Overlay
+                    mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(ctx),map);
                     mLocationOverlay.enableMyLocation();
+                    mLocationOverlay.enableFollowLocation();
+                    map.getOverlays().add(mLocationOverlay);
+
                     startStopGPS = true;
                     gpsButtonDescription.setText("GPS aktiv");
                     gpsButton.setText("Stop");
-                    mLocationOverlay.enableFollowLocation();
                 } else {
                     Log.d(TAG,"GPS AUS");
                     locationManager.removeUpdates(this);
                     mLocationOverlay.disableMyLocation();
+                    map.getOverlayManager().remove(mLocationOverlay);
                     startStopGPS = false;
                     gpsButtonDescription.setText("GPS inaktiv");
                     gpsButton.setText("Start");
@@ -194,8 +197,6 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
     public void onResume() {
         Log.d(TAG, "onResume() in TrackFragment");
         super.onResume();
-        mLocationOverlay.disableMyLocation();
-        locationManager.removeUpdates(this);
         map.onResume(); //needed for compass, my location overlays, v6.0.0 and up
     }
 
@@ -204,26 +205,11 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
         Log.d(TAG, "onPause() in TrackFragment");
         super.onPause();
         mLocationOverlay.disableMyLocation();
+        map.getOverlayManager().remove(mLocationOverlay);
+        map.getOverlayManager().remove(mCompassOverlay);
         locationManager.removeUpdates(this);
         map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
     }
-
-    @Override
-    public void onStart(){
-        Log.d(TAG, "onStart() in TrackFragment");
-        super.onStart();
-        mLocationOverlay.disableMyLocation();
-        locationManager.removeUpdates(this);
-    }
-
-    @Override
-    public void onStop(){
-        Log.d(TAG, "onStop() in TrackFragment");
-        super.onStop();
-        mLocationOverlay.disableMyLocation();
-        locationManager.removeUpdates(this);
-    }
-
 
     public void onLocationChanged(Location location) {
             Log.v(TAG, "onLocationChanged in Tragfragment");

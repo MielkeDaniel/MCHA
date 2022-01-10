@@ -33,12 +33,12 @@
 
     <TextView
         android:id="@+id/bpm"
-        android:layout_width="64dp"
+        android:layout_width="100dp"
         android:layout_height="45dp"
         android:layout_marginTop="76dp"
-        android:layout_marginEnd="80dp"
+        android:layout_marginEnd="60dp"
         android:gravity="center"
-        android:text="120"
+        android:text="0"
         android:textColor="@color/black"
         android:textSize="38sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,12 +46,12 @@
 
     <TextView
         android:id="@+id/averageBPM"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="48dp"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="70dp"
+        android:layout_marginEnd="60dp"
         android:gravity="center"
-        android:text="Ø110"
+        android:text="Ø0"
         android:textColor="@color/black"
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -228,6 +228,17 @@
         app:layout_constraintBottom_toTopOf="@+id/BikeRun1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/bikeRun2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="#2F94FC"
+        android:text="BikeRun 2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

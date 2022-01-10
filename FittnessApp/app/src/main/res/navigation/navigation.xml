@@ -30,6 +30,12 @@
         <action
             android:id="@+id/action_bikeRunFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_bikeRunFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_bikeRunFragment_to_bikeRun2Fragment"
+            app:destination="@id/bikeRun2Fragment" />
     </fragment>
     <fragment
         android:id="@+id/trackFragment"
@@ -44,4 +50,12 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.androidstudio.FittnessApp.ui.main.Settings.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/bikeRun2Fragment"
+        android:name="com.example.androidstudio.FittnessApp.ui.main.BikeRun.BikeRun2Fragment"
+        android:label="BikeRun2Fragment" >
+        <action
+            android:id="@+id/action_bikeRun2Fragment_to_bikeRunFragment"
+            app:destination="@id/bikeRunFragment" />
+    </fragment>
 </navigation>

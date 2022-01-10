@@ -137,6 +137,13 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         editor.putBoolean(MALE, genderInputM.isChecked());
         editor.putBoolean(DIVERS, genderInputD.isChecked());
         editor.putBoolean(FEMALE, genderInputF.isChecked());
+        if(genderInputM.isChecked()){
+            editor.putString("GENDER", "MALE");
+        }else if(genderInputF.isChecked()){
+            editor.putString("GENDER", "FEMALE");
+        }else if(genderInputD.isChecked()){
+            editor.putString("GENDER", "DIVERS");
+        }
         editor.apply();
     }
 

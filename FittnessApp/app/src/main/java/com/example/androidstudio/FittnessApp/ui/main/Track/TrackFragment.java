@@ -57,7 +57,7 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
     private GeoPoint point;
     private IMapController mapController;
     private MapView map;
-    private  Polyline line;
+    private Polyline line;
     private List<GeoPoint> geoPoints;
     private Context ctx;
     //Textviews

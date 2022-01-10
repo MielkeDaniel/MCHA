@@ -41,26 +41,28 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
     private static final String TAG = "trackFragment";
 
 
-    //Variablen
+    //Boolean-Variablen
     boolean startStopGPS = false;
     boolean center = true;
-
-    //Widgest usw.
+    //Buttons
     private Button zoomInButton;
     private Button zoomOutButton;
     private Button centerButton;
     private Button gpsButton;
+    //Overlays
     private CompassOverlay mCompassOverlay;
     private MyLocationNewOverlay mLocationOverlay;
+    //Location,Zeichnen usw.
+    LocationManager locationManager;
     private GeoPoint point;
     private IMapController mapController;
-    LocationManager locationManager;
     private MapView map;
+    private  Polyline line;
+    private List<GeoPoint> geoPoints;
+    //Textviews
     private TextView geschwindigkeitsView;
     private TextView centerDescription;
     private TextView gpsButtonDescription;
-    private  Polyline line;
-    private List<GeoPoint> geoPoints;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -115,23 +117,24 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
         //Map
         map = (MapView) view.findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);
+        //Mapcontroller
         mapController = map.getController();
         mapController.setZoom(8);
         point = new GeoPoint(52.106701, 10.198094);
         mapController.setCenter(point);
+        //Compassoverlay
         this.mCompassOverlay = new CompassOverlay(ctx, new InternalCompassOrientationProvider(ctx), map);
         this.mCompassOverlay.enableCompass();
         map.getOverlays().add(this.mCompassOverlay);
+        //MyLocationOverlay
         this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(ctx),map);
         map.getOverlays().add(this.mLocationOverlay);
-
+        //Polylinevariablen
         geoPoints = new ArrayList<>();
-        //add your points here
         line = new Polyline();
         return view;
     }
-
-
+    
     @Override
     public void onClick(View view) {
         Log.d(TAG, "onClick():  in TrackFragment");
@@ -187,6 +190,7 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
     }
     @Override
     public void onResume() {
+        Log.d(TAG, "onResume() in TrackFragment");
         super.onResume();
         this.mLocationOverlay.disableMyLocation();
         locationManager.removeUpdates(this);
@@ -195,6 +199,7 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
 
     @Override
     public void onPause() {
+        Log.d(TAG, "onPause() in TrackFragment");
         super.onPause();
         this.mLocationOverlay.disableMyLocation();
         locationManager.removeUpdates(this);
@@ -203,6 +208,7 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
 
     @Override
     public void onStart(){
+        Log.d(TAG, "onStart() in TrackFragment");
         super.onStart();
         this.mLocationOverlay.disableMyLocation();
         locationManager.removeUpdates(this);
@@ -210,20 +216,20 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
 
     @Override
     public void onStop(){
+        Log.d(TAG, "onStop() in TrackFragment");
         super.onStop();
         this.mLocationOverlay.disableMyLocation();
         locationManager.removeUpdates(this);
     }
 
 
-
-
     public void onLocationChanged(Location location) {
-            Log.v(TAG, "onLocationChanged");
+            Log.v(TAG, "onLocationChanged in Tragfragment");
             getSpeed(location);
             point = new GeoPoint(location);
             geoPoints.add(point);
 
+            //Füllen der Liste und Zeichnen der Linie
             if(geoPoints.size() >= 2) {
                 line.setPoints(geoPoints);
                 map.getOverlayManager().add(line);
@@ -231,6 +237,7 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
     }
 
     public void getSpeed(Location location) {
+        Log.v(TAG, "getSpeed in TrackFragment");
         float speed = (location.getSpeed() * 3600 / 1000);
         String convertedSpeed = String.format("%.2f", speed);
         geschwindigkeitsView.setText(convertedSpeed + "km/h");

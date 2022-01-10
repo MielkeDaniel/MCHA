@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/butwin"
+        app:layout_constraintBottom_toTopOf="@+id/butpause"
         app:layout_constraintDimensionRatio="w,"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,29 +21,29 @@
         app:srcCompat="@drawable/hintergrund" />
 
     <Button
-        android:id="@+id/butwin"
+        android:id="@+id/butpause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="#2080A6"
-        android:text="Pause/Resume"
+        android:text="Pause"
         android:textColor="#EAF6FB"
         app:layout_constraintBottom_toBottomOf="parent"
 
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.896"
-        app:layout_constraintStart_toEndOf="@+id/butloss" />
+        app:layout_constraintStart_toEndOf="@+id/butstart" />
 
     <Button
-        android:id="@+id/butloss"
+        android:id="@+id/butstart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:backgroundTint="#2080A6"
-        android:text="Start/Stop"
+        android:text="Start"
         android:textColor="#EAF6FB"
         app:iconTint="#2196F3"
         app:iconTintMode="add"
@@ -51,6 +51,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.088"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <com.example.androidstudio.FittnessApp.ui.main.Cardio.MyView
+        android:id="@+id/heartrateView"
+        android:layout_width="1000px"
+        android:layout_height="200px"
+        android:layout_marginTop="560dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.609"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/herzfrequenz"
@@ -81,7 +91,7 @@
         app:layout_constraintHorizontal_bias="0.111"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+    <DigitalClock
         android:id="@+id/uhrzeit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -124,7 +134,7 @@
         android:id="@+id/dauerZeit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="00:00:08"
+        android:text="00:00:00"
         android:textColor="#0F1121"
         android:textSize="48sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -148,7 +158,7 @@
         app:layout_constraintVertical_bias="0.023" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/tvKcal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -159,17 +169,36 @@
         app:layout_constraintHorizontal_bias="0.455"
         app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-    <View
-        android:id="@+id/zielkorridore"
-        android:layout_width="361dp"
-        android:layout_height="92dp"
-        android:background="#2080A6"
+    <TextView
+        android:id="@+id/tvHerzfrequenz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:text="zahl"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="#0E1022"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.844" />
+        app:layout_constraintHorizontal_bias="0.259"
+        app:layout_constraintStart_toEndOf="@+id/herzfrequenz"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.668" />
+    <TextView
+        android:id="@+id/tvMittlereherz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="140dp"
+        android:text="zahl"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="#0E1022"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.966"
+        app:layout_constraintStart_toEndOf="@+id/mhf"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.619" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -133,6 +133,7 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
         return view;
     }
 
+
     @Override
     public void onClick(View view) {
         Log.d(TAG, "onClick():  in TrackFragment");

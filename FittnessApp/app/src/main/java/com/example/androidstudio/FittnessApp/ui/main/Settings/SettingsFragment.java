@@ -2,9 +2,11 @@ package com.example.androidstudio.FittnessApp.ui.main.Settings;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,8 +20,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.androidstudio.FittnessApp.MainActivity;
 import com.example.androidstudio.FittnessApp.R;
@@ -79,6 +83,15 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         if (((MainActivity) getActivity()).getIsConnected()) {
             connectionState.setText("Verbunden");
         }
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Log.d(TAG, "onBackPressed");
+                NavHostFragment.findNavController(getParentFragment()).navigate(R.id.action_settingsFragment_to_homeFragment);
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getActivity(), callback);
         return view;
     }
 

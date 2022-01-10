@@ -1,20 +1,52 @@
 package com.example.androidstudio.FittnessApp.ui.main.Cardio;
 
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.example.androidstudio.FittnessApp.MainActivity;
 import com.example.androidstudio.FittnessApp.R;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.navigation.fragment.NavHostFragment;
 
-public class CardioFragment extends Fragment implements View.OnClickListener{
-    private static final String TAG = "cardieFragment";
+import de.hsfl.tjwa.blheartrateconnection.HeartSensorController;
+
+public class CardioFragment extends Fragment implements View.OnClickListener {
+    private static final String TAG = "hsflCardioFragment";
+
+    private static String TIME = "TIME_TAG";
+    TextView timertext, textviewKcal,tv_MittlereHerz, tv_Heartrate;
+    Button butpauseResume,butstartStop;
+    private boolean timerunning;
+    private float calories;
+    private int totalHeartRate, sec, seconds, mittlereheartrate;
+    private String age;
+    private String weight;
+    private float met =6; // MET Maßeinheit für die Intensität von Bewegung oder Sport (Rudern mit Rudergerät)
+    private boolean ismen;
+    private boolean iswomen;
+    private boolean isdev;
+    float  proHrs;
+    float proSec;
+    private int heartRate;
+    HeartSensorController heartSensorController = new HeartSensorController(getActivity());
+    static private MyView viewKorridor;
+    private int heartRateZeahler=0;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -23,21 +55,163 @@ public class CardioFragment extends Fragment implements View.OnClickListener{
         Log.d(TAG, "onCreateView():  ");
 
         View view = inflater.inflate(R.layout.cardio_fragment, container, false);
-        Button butLoss = (Button)view.findViewById(R.id.butwin);
-        butLoss.setOnClickListener(this);
-        Button butWin = (Button)view.findViewById(R.id.butloss);
-        butWin.setOnClickListener(this);
 
+        timertext= (TextView) view.findViewById(R.id.dauerZeit);
+        textviewKcal= (TextView) view.findViewById(R.id.tvKcal);
+        tv_Heartrate= (TextView) view.findViewById(R.id.tvHerzfrequenz);
+        tv_MittlereHerz= (TextView) view.findViewById(R.id.tvMittlereherz);
+        butpauseResume = (Button) view.findViewById(R.id.butpause);
+        butpauseResume.setOnClickListener(this);
+        butstartStop = (Button) view.findViewById(R.id.butstart);
+        butstartStop.setOnClickListener(this);
+        heartSensorController.startSimulation(1000);
+
+        viewKorridor =  getActivity().findViewById(R.id.heartrateView);
+        viewKorridor = new MyView(getActivity().getApplicationContext());
+
+
+
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("SHARED_PREFS", Context.MODE_PRIVATE);
+        age=sharedPreferences.getString("AGE", String.valueOf(0));
+        weight=sharedPreferences.getString("WEIGHT",String.valueOf(0));
+        ismen=sharedPreferences.getBoolean("MALE", false);
+        iswomen=sharedPreferences.getBoolean("FAMALE",false);
+        isdev=sharedPreferences.getBoolean("DIVERS", false);
+
+
+
+        //loadUserFromPref();
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Log.d(TAG, "onBackPressed");
+                AlertDialog.Builder backAlert = new AlertDialog.Builder(getActivity());
+                backAlert.setTitle("Training Stoppen");
+                backAlert.setMessage("Soll das Training wirklich gestoppt werden?");
+                backAlert.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Log.v(TAG, "going back to home");
+                        NavHostFragment.findNavController(getParentFragment()).navigate(R.id.action_cardioFragment_to_home_fragment);
+                    }
+                });
+
+                backAlert.setNeutralButton("Abbrechen", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //do nothing
+                    }
+                });
+
+                backAlert.show();
+            }
+
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getActivity(), callback);
+
+        Log.v(TAG,"TTTTTTTTTTTTT"+ String.valueOf(((MainActivity) getActivity()).getHeartSensorController().getHeartRate().getValue()));
         return view;
     }
 
     public void onClick(View view) {
         Log.d(TAG, "onClick()");
-        if (view.getId() == R.id.butwin) {
-            //NavHostFragment.findNavController(this).navigate(R.id.action_gameFragment_to_winFragment);
+
+        if (view.getId() == R.id.butstart) {
+            if( ! butstartStop.getText().equals("Stop")) {
+                timerunning=true;
+                startTimer();
+
+                butstartStop.setText("Stop");
+            }
+            else{
+                timerunning=false;
+                butstartStop.setText("Start");
+
+
+            }
         }
-        else {
-            //NavHostFragment.findNavController(this).navigate(R.id.action_gameFragment_to_lossFragment);
+        else if (view.getId() == R.id.butpause){
+            if( ! butpauseResume.getText().equals("Pause")) {
+                timerunning=true;
+                butpauseResume.setText("Pause");
+            }
+            else{
+                timerunning=false;
+                butpauseResume.setText("Resume");
+            }
         }
     }
+    private void startTimer(){
+        Handler handler= new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                int hrs = seconds/3600;
+                int mins= (seconds%3600)/60;
+                sec= seconds%60;
+                Calories();
+
+                textviewKcal.setText(" "+ calories);
+                String time = String.format("%02d:%02d:%2d", hrs, mins,sec);
+                timertext.setText(time);
+                if (timerunning){
+                    seconds++;
+                }
+                handler.postDelayed(this, 1000);
+
+                Heartrate();
+
+            }
+        });
+    }
+
+    private void Calories(){
+        if (ismen==true){
+            proHrs= (float) (0.9*1*Float.parseFloat(weight)*met); //Calores in 1 sec
+            proSec=proHrs/3600;
+            calories=proSec*sec;
+
+        }
+        else if(iswomen==true){
+
+            proSec=1*(1/3600)*Float.parseFloat(weight)*met;
+            proSec=proHrs/3600;
+            calories=proSec*sec;
+
+        }
+        else if (isdev==true){
+            proSec= (float) (1*(1/36)*Double.parseDouble(weight)*met);
+            proSec=proHrs/3600;
+            calories=proSec*sec;
+
+        }
+    }
+
+    private void Heartrate(){
+
+
+        heartRate = ((MainActivity) getActivity()).getHeartSensorController().getHeartRate().getValue();
+
+        heartRateZeahler++;
+
+        Log.d(TAG, "My heart rate is: " + heartRate);
+        tv_Heartrate.setText(String.valueOf(heartRate+" bqm"));
+
+        viewKorridor.setHeartRate(heartRate);
+
+        totalHeartRate+=heartRate;
+        mittlereheartrate=totalHeartRate/heartRateZeahler;
+        tv_MittlereHerz.setText(String.valueOf(mittlereheartrate+" bqm"));
+
+        viewKorridor.invalidate();
+
+
+    }
+
 }
+
+
+
+

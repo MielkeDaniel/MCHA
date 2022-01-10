@@ -52,11 +52,19 @@
     <fragment
         android:id="@+id/cardioFragment"
         android:name="com.example.androidstudio.FittnessApp.ui.main.Cardio.CardioFragment"
-        android:label="CardioFragment" />
+        android:label="CardioFragment" >
+        <action
+            android:id="@+id/action_cardioFragment_to_home_fragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.androidstudio.FittnessApp.ui.main.Settings.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="SettingsFragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/bikeRun2Fragment"
         android:name="com.example.androidstudio.FittnessApp.ui.main.BikeRun.BikeRun2Fragment"

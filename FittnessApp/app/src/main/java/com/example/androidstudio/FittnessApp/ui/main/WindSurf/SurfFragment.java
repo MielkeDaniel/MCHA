@@ -68,11 +68,6 @@ public class SurfFragment extends Fragment implements View.OnClickListener, Loca
     boolean timeStart = false;
     LocationManager locManager;
 
-
-
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView():  ");

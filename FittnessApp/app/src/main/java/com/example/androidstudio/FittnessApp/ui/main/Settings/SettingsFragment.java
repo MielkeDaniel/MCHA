@@ -58,6 +58,13 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     HeartSensorController permissionHeartSensorController;
     BluetoothDevice selectedHeartRateSensor;
 
+
+    /**
+     * Setzt das entsprechende xml Layout, holt sich die xml-Objekte über deren IDs
+     * anschließend werden die zuletzt gespeicherten Nutzerdaten geladen und gesetzt.
+     * Sollte der HeartRateController beim Starten der Mainactivity sich mit einem Gerät verbunden haben, so wird die
+     * Statusanzeige auf "Verbunden" gesetzt.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView():  ");
@@ -77,13 +84,15 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         btButton = (Button) view.findViewById(R.id.btButton);
         btButton.setOnClickListener(this);
 
+        // Laden der Benutzerdaten
         loadUserFromPref();
 
-
+        // "Verbunden" falls er mit Verbunden ist
         if (((MainActivity) getActivity()).getIsConnected()) {
             connectionState.setText("Verbunden");
         }
 
+        // Überschreiben der OnBackPressed Methode
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -95,34 +104,22 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    // Startet die LeDeviceScanActivity und schickt einen Requestcode mit, um anschließend in der onActivityResult darauf antworten zu können.
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btButton:
                 Log.v(TAG, "btButton clicked");
+                // In der Activity kann man sich mit möglichen Bluetoothgeräten verbinden
                 startActivityForResult(new Intent(getActivity(), LeDeviceScanActivity.class), request_Code);
                 break;
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        loadUserFromPref();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        saveFragmentPrefs();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        saveFragmentPrefs();
-    }
-
+    /**
+     * Passt der Requestcode zum Aufruf der startActivityForResult, kann man sich aus der intentdata das Device rausholen.
+     * Das Device wird anschließend an die MainActivity weitergeleitet, welche dann auch den Bluetoothdienst startet.
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == request_Code) {
@@ -135,18 +132,39 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
                 ((MainActivity)getActivity()).setCurrentAdapter(selectedHeartRateSensor.getAddress());
                 saveFragmentPrefs();
-            } else {
-                // Start simulation
             }
         }
     }
 
+    // Lädt die Benutzerdaten
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadUserFromPref();
+    }
+
+    // Speichert die Benutzerdaten
+    @Override
+    public void onStop() {
+        super.onStop();
+        saveFragmentPrefs();
+    }
+
+    // Speichert die Benutzerdaten
+    @Override
+    public void onPause() {
+        super.onPause();
+        saveFragmentPrefs();
+    }
+
+    // Holt sich die Permissions
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         permissionHeartSensorController.onRequestPermissionsResult(requestCode, permissions, grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    // Speichert die daten in über Shared Preferences ab, welche anschließend über die Keys wieder abgerufen werden können
     public void saveFragmentPrefs() {
         Log.v(TAG, "Saving contents");
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("SHARED_PREFS", Context.MODE_PRIVATE);
@@ -159,6 +177,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         editor.putBoolean(MALE, genderInputM.isChecked());
         editor.putBoolean(DIVERS, genderInputD.isChecked());
         editor.putBoolean(FEMALE, genderInputF.isChecked());
+        // Speichert sich nur das Geschlecht ab, welches ausgewählt ist
         if(genderInputM.isChecked()){
             editor.putString("GENDER", "MALE");
         }else if(genderInputF.isChecked()){
@@ -169,6 +188,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         editor.apply();
     }
 
+    // Setzt die Benutzerdaten in die Entsprechenden Views beim Laden der Daten wieder ein
     public void loadUserFromPref() {
         Log.v(TAG, "Loading Preferences");
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("SHARED_PREFS", Context.MODE_PRIVATE);

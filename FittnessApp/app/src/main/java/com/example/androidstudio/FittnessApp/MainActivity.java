@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Instanziert den heartSensorController
         this.heartSensorController = new HeartSensorController(this);
+        this.bluetoothManager = (BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE);
 
         // Fragt den Benutzer über die Lacationpermissions ab, falls noch nciht erteilt
         if (ContextCompat.checkSelfPermission(MainActivity.this,

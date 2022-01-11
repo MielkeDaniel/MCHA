@@ -23,7 +23,7 @@ public class MyView extends View {
 
 
     // ----- Schritt2 Hintergrundgrafik einbinden
-    private Bitmap korridore;
+    private Bitmap bildkorridore;
     private Rect rView;
     private Rect rkorridore;
     // -----
@@ -48,10 +48,10 @@ public class MyView extends View {
         myPaint.setColor(Color.RED);
 
         // ----- Schritt2 Hintergrundgrafik einbinden
-        korridore = BitmapFactory.decodeResource(getResources(), R.drawable.bildmob);
+        bildkorridore = BitmapFactory.decodeResource(getResources(), R.drawable.bildmob);
         rView = new Rect();
         rkorridore = new Rect();
-        rkorridore.set(0, 0, korridore.getWidth(), korridore.getHeight());
+        rkorridore.set(0, 0,bildkorridore.getWidth(), bildkorridore.getHeight());
         // -----
     }
 
@@ -64,7 +64,7 @@ public class MyView extends View {
 
 
         rView.set(0, 0, this.getWidth(), this.getHeight());
-        canvas.drawBitmap(korridore, rkorridore, rView, myPaint);
+        canvas.drawBitmap(bildkorridore, rkorridore, rView, myPaint);
 
         float pixWidth = (float)getWidth();
         float pixHeight = (float)getHeight();
@@ -75,14 +75,13 @@ public class MyView extends View {
         canvas.drawText("50 bqm", 10, 180, myPaint);
         canvas.drawCircle(100, heartRatePosY, 10, myPaint);
 
-
         Log.v(TAG, "onDraw(canvas).......:   "+ heartRatePosY);
 
     }
 
     public void setHeartRate(int heartRate) {
         heartRatePosY=heartRate;
-        Log.v(TAG, "setHeartRate().......:  "+ heartRatePosY);
+        Log.v(TAG, "MyView(); setHeartRate(); :  "+ heartRatePosY);
         invalidate();
 
     }

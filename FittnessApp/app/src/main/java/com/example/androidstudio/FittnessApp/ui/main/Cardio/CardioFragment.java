@@ -45,6 +45,7 @@ public class CardioFragment extends Fragment implements View.OnClickListener {
     HeartSensorController heartSensorController = new HeartSensorController(getActivity());
     static private MyView viewKorridor;
     private int heartRateZeahler=0;
+    private String time;
 
 
 
@@ -111,7 +112,7 @@ public class CardioFragment extends Fragment implements View.OnClickListener {
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getActivity(), callback);
 
-        Log.v(TAG,"TTTTTTTTTTTTT"+ String.valueOf(((MainActivity) getActivity()).getHeartSensorController().getHeartRate().getValue()));
+        Log.v(TAG,"onCreateView(); HeartRate"+ String.valueOf(((MainActivity) getActivity()).getHeartSensorController().getHeartRate().getValue()));
         return view;
     }
 
@@ -128,6 +129,8 @@ public class CardioFragment extends Fragment implements View.OnClickListener {
             else{
                 timerunning=false;
                 butstartStop.setText("Start");
+                seconds=0;
+
 
 
             }
@@ -151,8 +154,8 @@ public class CardioFragment extends Fragment implements View.OnClickListener {
                 int hrs = seconds/3600;
                 int mins= (seconds%3600)/60;
                 sec= seconds%60;
-                Calories();
 
+                Calories();
                 textviewKcal.setText(" "+ calories);
                 String time = String.format("%02d:%02d:%2d", hrs, mins,sec);
                 timertext.setText(time);
@@ -176,27 +179,25 @@ public class CardioFragment extends Fragment implements View.OnClickListener {
         }
         else if(iswomen==true){
 
-            proSec=1*(1/3600)*Float.parseFloat(weight)*met;
+            proHrs=1*Float.parseFloat(weight)*met;
             proSec=proHrs/3600;
             calories=proSec*sec;
 
         }
         else if (isdev==true){
-            proSec= (float) (1*(1/36)*Double.parseDouble(weight)*met);
+            proSec= (float) (1*Double.parseDouble(weight)*met);
             proSec=proHrs/3600;
             calories=proSec*sec;
-
         }
     }
 
     private void Heartrate(){
 
-
         heartRate = ((MainActivity) getActivity()).getHeartSensorController().getHeartRate().getValue();
 
         heartRateZeahler++;
 
-        Log.d(TAG, "My heart rate is: " + heartRate);
+        Log.d(TAG, "CardioFragment Heartrate(); My heart rate is: " + heartRate);
         tv_Heartrate.setText(String.valueOf(heartRate+" bqm"));
 
         viewKorridor.setHeartRate(heartRate);

@@ -50,15 +50,15 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
     private Button centerButton;
     private Button gpsButton;
     //Overlays
-    private CompassOverlay mCompassOverlay;
-    private MyLocationNewOverlay mLocationOverlay;
+    private CompassOverlay mCompassOverlay; //Kompassoverlay für die Map
+    private MyLocationNewOverlay mLocationOverlay; //Anzeige der Position mit einem Pfeil
     //Location,Zeichnen usw.
     LocationManager locationManager;
     private GeoPoint point;
     private IMapController mapController;
     private MapView map;
-    private Polyline line;
-    private List<GeoPoint> geoPoints;
+    private Polyline line; //Linie die hinter dem Positionspfiel gezeichnet wird
+    private List<GeoPoint> geoPoints; //Liste der Bewegungspunkte für die Polyline
     private Context ctx;
     //Textviews
     private TextView geschwindigkeitsView;
@@ -69,12 +69,13 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView():  in TrackFragment");
 
+        //Abfrage, ob Tracking beendet werden soll (System-Backbutton)
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 Log.d(TAG, "onBackPressed");
                 AlertDialog.Builder backAlert = new AlertDialog.Builder(getActivity());
-                backAlert.setTitle("Training Stoppen");
+                backAlert.setTitle("Tracking Stoppen");
                 backAlert.setMessage("Soll das Tracking wirklich gestoppt werden?");
                 backAlert.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
                     @Override
@@ -128,8 +129,8 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
         mCompassOverlay.enableCompass();
         map.getOverlays().add(mCompassOverlay);
         //Polylinevariablen
-        geoPoints = new ArrayList<>();
-        line = new Polyline();
+        geoPoints = new ArrayList<>(); //Liste wird in "onLocationChanged" gefüllt
+        line = new Polyline(); //Neue Polyline wird angelegt
         return view;
     }
 
@@ -138,42 +139,48 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
     public void onClick(View view) {
         Log.d(TAG, "onClick():  in TrackFragment");
         switch (view.getId()){
+            //Button zum Reinzoomen der Karte
             case R.id.zoomIn:
-                Log.d(TAG, "zoomIn in TrackFragment");
-                //Button zum zoomen der Karte
-                mapController.zoomIn();
+                Log.d(TAG, "zoomIn-BUtton in TrackFragment");
+                mapController.zoomIn(); //Reinzoomen
                 break;
 
+            //Button zum Rauszoomen der Karte
             case R.id.zoomOut:
-                Log.d(TAG, "zoomOut in TrackFragment");
-                mapController.zoomOut();
+                Log.d(TAG, "zoomOut-Button in TrackFragment");
+                mapController.zoomOut(); //Rauszoomen
                 break;
 
+            //Button zum zentrieren der Karte
             case R.id.centerButton:
-                Log.d(TAG, "zentrierenButton in TrackFragment");
-                //Button zum zentrieren der Karte
+                Log.d(TAG, "centerButton in TrackFragment");
                 if(center) {
-                    this.mLocationOverlay.disableFollowLocation();
+                    this.mLocationOverlay.disableFollowLocation(); //Freies Bewegen auf der Karte möglich
                     center = false;
                     centerDescription.setText("Dezentriert");
                 } else {
-                    this.mLocationOverlay.enableFollowLocation();
+                    this.mLocationOverlay.enableFollowLocation(); //Position wird wieder gefolgt (kein freies Bewegen)
                     centerDescription.setText("Zentriert");
                     center = true;
                 }
                 break;
 
+            //Button zum starten des Trackings
             case R.id.gpsButton:
                 Log.d(TAG,"Start/Stop Button in TrackFragment");
-                //Button zum starten des Trackings
                 if ( ! startStopGPS) {
                     Log.d(TAG,"GPS AN");
 
+                    //Starten der Locationupdates wenn Permission gegeben wurde
                     if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, TrackFragment.this);
                     }
 
                     //Location-Overlay
+                    /* Das Locationoverlay wird erst hier aktiviert, da aus einem mir nicht bekannten Grund,
+                     * sobald das Overlay mit "new ..." in der "onCreateView()" angelegt wird, sofort
+                     * die Location abgefragt wird, obwohl ".enableMyLocation" oder ".requestLocationUpdates"
+                     * nicht aufgerufen werden. */
                     mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(ctx),map);
                     mLocationOverlay.enableMyLocation();
                     mLocationOverlay.enableFollowLocation();
@@ -184,9 +191,14 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
                     gpsButton.setText("Stop");
                 } else {
                     Log.d(TAG,"GPS AUS");
-                    locationManager.removeUpdates(this);
-                    mLocationOverlay.disableMyLocation();
-                    map.getOverlayManager().remove(mLocationOverlay);
+                    locationManager.removeUpdates(this); //Entfernen der Locationupdates
+
+                    mLocationOverlay.disableMyLocation(); /* Muss auch durchgeführt werden, da sonst weiterhin
+                                                           * locations abgefragt werden */
+
+                    map.getOverlayManager().remove(mLocationOverlay); /*Entfernen des Locationoverlays, damit
+                                                                      * nicht mehrere übereinander
+                                                                      * gezeichnet werden */
                     startStopGPS = false;
                     gpsButtonDescription.setText("GPS inaktiv");
                     gpsButton.setText("Start");
@@ -205,29 +217,31 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
     public void onPause() {
         Log.d(TAG, "onPause() in TrackFragment");
         super.onPause();
+        //Entfernen aller Location-Abfragen und entfernen der Overlays
         mLocationOverlay.disableMyLocation();
         map.getOverlayManager().remove(mLocationOverlay);
         map.getOverlayManager().remove(mCompassOverlay);
-        locationManager.removeUpdates(this);
+        locationManager.removeUpdates(this); //Entfernen der Locationupdates
         map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
     }
 
     public void onLocationChanged(Location location) {
-            Log.v(TAG, "onLocationChanged in Tragfragment");
-            getSpeed(location);
+            Log.v(TAG, "onLocationChanged in TrackFragment");
+            getSpeed(location); //Aufruf der getSpeed-Methode
             point = new GeoPoint(location);
-            geoPoints.add(point);
+            geoPoints.add(point); //Geopoints werden in die Liste gespeichert
 
-            //Füllen der Liste und Zeichnen der Linie
+        /*Hier wird kontroliert, ob die Liste mindestens zwei Punkte enthält.
+        * Eine Polyline kann nur aus zwei Punkten gezeichnet werden */
             if(geoPoints.size() >= 2) {
-                line.setPoints(geoPoints);
-                map.getOverlayManager().add(line);
+                line.setPoints(geoPoints); //Der Linie werden die Geopoints hinzugefügt
+                map.getOverlayManager().add(line); //Linie wird gezeichnet
             }
     }
 
     public void getSpeed(Location location) {
-        Log.v(TAG, "getSpeed in TrackFragment");
-        float speed = (location.getSpeed() * 3600 / 1000);
+        Log.v(TAG, "getSpeed() in TrackFragment");
+        float speed = (location.getSpeed() * 3600 / 1000); //Berechnung der Geschwindigkeit
         String convertedSpeed = String.format("%.2f", speed);
         geschwindigkeitsView.setText(convertedSpeed + "km/h");
     }

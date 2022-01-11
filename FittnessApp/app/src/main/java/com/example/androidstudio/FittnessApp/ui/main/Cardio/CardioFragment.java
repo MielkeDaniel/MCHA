@@ -38,7 +38,7 @@ public class CardioFragment extends Fragment implements View.OnClickListener {
     float  proHrs;
     float proSec;
     private int heartRate;
-    HeartSensorController heartSensorController = new HeartSensorController(getActivity());
+    HeartSensorController heartSensorController;
     static private MyView viewKorridor;
     private int heartRateZeahler=0;
 
@@ -60,7 +60,13 @@ public class CardioFragment extends Fragment implements View.OnClickListener {
         butpauseResume.setOnClickListener(this);
         butstartStop = (Button) view.findViewById(R.id.butstart);
         butstartStop.setOnClickListener(this);
-        heartSensorController.startSimulation(1000);
+
+        heartSensorController = ((MainActivity)getActivity()).getHeartSensorController();
+        if (heartSensorController.isConnected()) {
+            heartSensorController.startBluetooth(true);
+        } else {
+            heartSensorController.startSimulation(1000);
+        }
 
         viewKorridor = view.findViewById(R.id.heartrateView);
 
@@ -174,7 +180,7 @@ public class CardioFragment extends Fragment implements View.OnClickListener {
     private void Heartrate() {
 
 
-        heartRate = ((MainActivity) getActivity()).getHeartSensorController().getHeartRate().getValue();
+        heartRate = heartSensorController.getHeartRate().getValue();
 
         heartRateZeahler++;
 

@@ -9,6 +9,7 @@
     <string name="gr_e">Größe :</string>
     <string name="gewicht">Gewicht :</string>
     <string name="name">Name :</string>
+    <string name="pace">0.00km/h</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

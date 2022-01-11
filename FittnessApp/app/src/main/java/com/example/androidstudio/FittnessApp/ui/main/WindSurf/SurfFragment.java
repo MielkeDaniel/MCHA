@@ -237,7 +237,7 @@ public class SurfFragment extends Fragment implements View.OnClickListener, Loca
     public void getDistance(Location userloc) {
 
         if(lastLoc != null) {
-            wegtraveled += userloc.distanceTo(lastLoc) / 100.0;
+            wegtraveled += userloc.distanceTo(lastLoc) / 1000.0;
         }
         lastLoc = userloc;
 

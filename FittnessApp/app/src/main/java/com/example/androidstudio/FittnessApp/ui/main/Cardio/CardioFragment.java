@@ -27,8 +27,8 @@ public class CardioFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "hsflCardioFragment";
 
 
-    TextView timertext, textviewKcal,tv_MittlereHerz, tv_Heartrate;
-    Button butpauseResume,butstartStop;
+    private TextView timertext, textviewKcal,tv_MittlereHerz, tv_Heartrate;
+    private Button butpauseResume,butstartStop;
     private boolean timerunning;
     private double calories, perHour, perSec;
     private int totalHeartRate, sec, seconds, averageHeartrate;

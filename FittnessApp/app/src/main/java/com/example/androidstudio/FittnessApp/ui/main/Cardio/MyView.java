@@ -22,8 +22,8 @@ public class MyView extends View {
     private Paint myPaint;
     private int heartRatePosY;
     private int time;
-    ArrayList<Integer> heartRateList = new ArrayList<>(); //ArrayList to store the value of the heart sequence
-    ArrayList<Integer> timeList = new ArrayList<>();//ArrayList to store the value of the seconds sequence
+    private ArrayList<Integer> heartRateList = new ArrayList<>(); //ArrayList to store the value of the heart sequence
+    private ArrayList<Integer> timeList = new ArrayList<>();//ArrayList to store the value of the seconds sequence
 
     //  background graphic
     private Bitmap bildkorridore;

@@ -24,19 +24,20 @@ import androidx.navigation.fragment.NavHostFragment;
 import de.hsfl.tjwa.blheartrateconnection.HeartSensorController;
 
 public class BikeRun3Fragment extends Fragment implements View.OnClickListener {
-    private static final String TAG = "hsflCardioFragment";
+    private static final String TAG = "hsflBikeRun3Fragment";
 
-    private static String TIME = "TIME_TAG";
-    TextView timertext, textviewKcal,tv_MittlereHerz, tv_Heartrate;
-    Button butpauseResume,butstartStop;
+
+    private TextView timertext, textviewKcal,tv_MittlereHerz, tv_Heartrate;
+    private Button butpauseResume,butstartStop, bikeRun2Button;
     private boolean timerunning;
-    private float calories;
-    private int totalHeartRate, sec, seconds, mittlereheartrate;
+    private double calories, perHour, perSec;
+    private int totalHeartRate, sec, seconds, averageHeartrate;
+
+    private float met = 6; // MET Unit of measurement for the intensity of movement or sport (rowing with rowing machine).
+    private boolean ismen, iswomen, isdev; //Gender of the users
     private String weight;
-    private float met = 6; // MET Maßeinheit für die Intensität von Bewegung oder Sport (Rudern mit Rudergerät)
-    private String gender;
-    float  proHrs;
-    float proSec;
+
+
     private int heartRate;
     HeartSensorController heartSensorController;
     static private MyView viewKorridor;
@@ -45,13 +46,11 @@ public class BikeRun3Fragment extends Fragment implements View.OnClickListener {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater,
-                             ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView():  ");
 
+        //.........Connect GUI elements
         View view = inflater.inflate(R.layout.bike3_fragment, container, false);
-
         timertext= (TextView) view.findViewById(R.id.dauerZeit);
         textviewKcal= (TextView) view.findViewById(R.id.tvKcal);
         tv_Heartrate= (TextView) view.findViewById(R.id.tvHerzfrequenz);
@@ -59,8 +58,12 @@ public class BikeRun3Fragment extends Fragment implements View.OnClickListener {
         butpauseResume = (Button) view.findViewById(R.id.butpause);
         butpauseResume.setOnClickListener(this);
         butstartStop = (Button) view.findViewById(R.id.butstart);
+        bikeRun2Button = (Button) view.findViewById(R.id.backToBikeRun2);
         butstartStop.setOnClickListener(this);
+        bikeRun2Button.setOnClickListener(this);
 
+        //initialisieren des heartSensors aus der MainActivity
+        //wenn kein Herzratensensor vebunden ist werden Werte simuliert, um die Funktion der App aufrecht zu erhalten
         heartSensorController = ((MainActivity)getActivity()).getHeartSensorController();
         if (heartSensorController.isConnected()) {
             heartSensorController.startBluetooth(true);
@@ -68,28 +71,31 @@ public class BikeRun3Fragment extends Fragment implements View.OnClickListener {
             heartSensorController.startSimulation(1000);
         }
 
+        //Reference on the view
         viewKorridor = view.findViewById(R.id.heartrateView);
 
+        //Input of the user SettingsFragment are fetched via SharedPreferences and stored here
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("SHARED_PREFS", Context.MODE_PRIVATE);
         weight = sharedPreferences.getString("WEIGHT",String.valueOf(0));
-        gender = sharedPreferences.getString("GENDER", "");
+        ismen=sharedPreferences.getBoolean("MALE", false);
+        iswomen=sharedPreferences.getBoolean("FAMALE",false);
+        isdev=sharedPreferences.getBoolean("DIVERS", false);
 
-
-
-        //loadUserFromPref();
-
+        //Back button is installed and asks the user if he wants to leave the page
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 Log.d(TAG, "onBackPressed");
                 AlertDialog.Builder backAlert = new AlertDialog.Builder(getActivity());
-                backAlert.setTitle("Training Stoppen");
+                backAlert.setTitle("Zurück zu BikeRun2");
                 backAlert.setMessage("Soll das Training wirklich gestoppt werden?");
                 backAlert.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+
                     @Override
+                    //When this is confirmed, the user leaves Cardio and goes to HomeFragment.
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Log.v(TAG, "going back to home");
-                        NavHostFragment.findNavController(getParentFragment()).navigate(R.id.action_cardioFragment_to_home_fragment);
+                        Log.v(TAG, "going back to BikeRun2");
+                        NavHostFragment.findNavController(getParentFragment()).navigate(R.id.action_bikeRun3Fragment_to_bikeRun2Fragment);
                     }
                 });
 
@@ -99,103 +105,150 @@ public class BikeRun3Fragment extends Fragment implements View.OnClickListener {
                         //do nothing
                     }
                 });
-
                 backAlert.show();
             }
-
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getActivity(), callback);
-
-        Log.v(TAG,"TTTTTTTTTTTTT" + String.valueOf(((MainActivity) getActivity()).getHeartSensorController().getHeartRate().getValue()));
         return view;
     }
 
+    //When the GUI button is clicked
     public void onClick(View view) {
         Log.d(TAG, "onClick()");
 
         if (view.getId() == R.id.butstart) {
             if( ! butstartStop.getText().equals("Stop")) {
-                timerunning=true;
+                timerunning=true; //Wenn The Boolean becomes True the Timer will start
                 startTimer();
-                butstartStop.setText("Stop");
+                butstartStop.setText("Stop");//Text on the button is changed to Stop
             }
             else {
-                timerunning=false;
                 butstartStop.setText("Start");
+                timerunning=false;
+
+                //Ask the user if he wants to stop drinking
+                AlertDialog.Builder resetAlert = new AlertDialog.Builder(getActivity());//
+                resetAlert.setTitle("Stoppen");
+                resetAlert.setMessage("Soll das Training wirklich gestoppt werden?");
+                resetAlert.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Log.d(TAG, "Stopp");
+                        Stop();
+                    }
+                });
+                resetAlert.setNeutralButton("Abbrechen", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //do nothing
+                    }
+                });
+                resetAlert.show();
             }
         }
-        else if (view.getId() == R.id.butpause){
+
+        else if (view.getId() == R.id.butpause){ //Pause
             if( ! butpauseResume.getText().equals("Pause")) {
                 timerunning=true;
-                butpauseResume.setText("Pause");
+                butpauseResume.setText("Pause"); //Pause the trening
             }
             else{
-                timerunning=false;
+                timerunning=false; //Resume the trening
                 butpauseResume.setText("Resume");
             }
+        }else if (view.getId() == R.id.backToBikeRun2){
+            Log.d(TAG,"onClick BikeRun2");
+            AlertDialog.Builder bike2Alert = new AlertDialog.Builder(getActivity());
+            bike2Alert.setTitle("Zurück zu BikeRun2");
+            bike2Alert.setMessage("Soll das Training wirklich gestoppt werden?");
+            bike2Alert.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Log.v(TAG, "going to BikeRun2");
+                    NavHostFragment.findNavController(getParentFragment()).navigate(R.id.action_bikeRun3Fragment_to_bikeRun2Fragment);
+                }
+            });
+
+            bike2Alert.setNeutralButton("Abbrechen", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    //do nothing
+                }
+            });
+
+            bike2Alert.show();
         }
     }
+    // The Handler helps to reckoned the time. with a Thread´s.
     private void startTimer(){
+        Log.d(TAG, "StartTimer(); ");
         Handler handler = new Handler();
         handler.post(new Runnable() {
             @Override
             public void run() {
-                int hrs = seconds/3600;
-                int mins= (seconds%3600)/60;
-                sec= seconds%60;
+                int hrs = seconds / 3600;
+                int mins= (seconds % 3600) / 60;
+                sec= seconds % 60;
                 String time = String.format("%02d:%02d:%2d", hrs, mins,sec);
+
                 if (timerunning){
                     seconds++;
-                    Calories();
-                    textviewKcal.setText(" "+ calories);
+                    Calories(); //The calorie class is called after every second
+                    textviewKcal.setText(" "+ Math.round(calories)); // The calories are visible to the user on the textview
                     timertext.setText(time);
                     Heartrate();
                 }
-                handler.postDelayed(this, 1000);
+                handler.postDelayed(this, 1000); //after every second this class is called
             }
         });
     }
 
     private void Calories(){
-        if (gender.equals("MALE")){
-            proHrs = (float) (0.9*1*Float.parseFloat(weight)*met); //Calores in 1 sec
-            proSec = proHrs/3600;
-            calories = proSec*sec;
+        Log.d(TAG, "Calories() " );
+        //https://www.rezeptrechner-online.de/blog/tag/aktivitaetsfaktor/
+        //Calorie consumption for the sport rowing
+        //first it will ask for the input of the usach and get from SettingsFragment the weight and the gender
+        if (ismen==true){
+            perHour=0.9*1*Double.parseDouble(weight)*met; //Calores in 1 sec
+            perSec=perHour/3600;
+            calories=perSec*sec;
         }
-        else if(gender.equals("FEMALE")){
-            proHrs = 1 * (1/3600) * Float.parseFloat(weight) * met;
-            proSec = proHrs/3600;
-            calories = proSec*sec;
-
-            Log.v(TAG, "CALORIES:" + calories + " proHrs:" + proHrs + " proSec:" + proSec + " met:" + met + " weight:" + Float.parseFloat(weight));
+        else if(iswomen==true){
+            perHour=1*(1/3600)*Double.parseDouble(weight)*met;
+            perSec=perHour/3600;
+            calories=perSec*sec;
 
         }
-        else if (gender.equals("DIVERS")){
-            proHrs = (float) (0.9*1*Float.parseFloat(weight)*met); //Calores in 1 sec
-            proSec = proHrs/3600;
-            calories = proSec*sec;
+        else if (isdev==true){
+            perHour=0.9*1*Double.parseDouble(weight)*met; //Calores in 1 sec
+            perSec=perHour/3600;
+            calories=perSec*sec;
+
         }
     }
 
     private void Heartrate() {
-
-
-        heartRate = heartSensorController.getHeartRate().getValue();
-
+        Log.d(TAG, "Heartrate(); " );
+        //The heart rate that runs over a simulation is called on and from it the value is stored in this class
+        heartRate = ((MainActivity) getActivity()).getHeartSensorController().getHeartRate().getValue();
         heartRateZeahler++;
-
-        Log.d(TAG, "My heart rate is: " + heartRate);
         tv_Heartrate.setText(String.valueOf(heartRate+" bqm"));
-
-        viewKorridor.setHeartRate(heartRate);
+        viewKorridor.setHeartRate(heartRate, heartRateZeahler);
 
         totalHeartRate+=heartRate;
-        mittlereheartrate=totalHeartRate/heartRateZeahler;
-        tv_MittlereHerz.setText(String.valueOf(mittlereheartrate+" bqm"));
-
-        viewKorridor.invalidate();
-
+        averageHeartrate =totalHeartRate/heartRateZeahler;
+        tv_MittlereHerz.setText(String.valueOf(averageHeartrate +" bqm"));
+    }
+    private void Stop(){
+        Log.d(TAG, "Stop(); " );
+        //resets everything
+        seconds=0;
+        textviewKcal.setText("0.0");
+        tv_Heartrate.setText("0");
+        timertext.setText("00:00:00");
+        tv_MittlereHerz.setText("0");
+        heartRate=0;
+        heartRateZeahler=0;
 
     }
-
 }

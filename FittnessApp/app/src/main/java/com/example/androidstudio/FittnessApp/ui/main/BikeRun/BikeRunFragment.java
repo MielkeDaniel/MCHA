@@ -23,7 +23,6 @@ import android.widget.TextView;
 
 import com.example.androidstudio.FittnessApp.MainActivity;
 import com.example.androidstudio.FittnessApp.R;
-import com.example.androidstudio.FittnessApp.ui.main.Settings.SettingsFragment;
 
 
 import androidx.activity.OnBackPressedCallback;
@@ -32,7 +31,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import de.hsfl.tjwa.blheartrateconnection.HeartSensorController;
 
@@ -98,7 +96,7 @@ public class BikeRunFragment extends Fragment implements View.OnClickListener, L
         //initialisieren der Buttons und Textviews
         startStopButton = (Button) view.findViewById(R.id.startStop);
         resetButton = (Button) view.findViewById(R.id.reset);
-        bikeRun2Button = (Button) view.findViewById(R.id.bikeRun2);
+        bikeRun2Button = (Button) view.findViewById(R.id.backToBikeRun2);
 
         velocity = (TextView) view.findViewById(R.id.velocity);
         averageVelocity = (TextView) view.findViewById(R.id.averageVelocity);
@@ -210,7 +208,7 @@ public class BikeRunFragment extends Fragment implements View.OnClickListener, L
                 resetAlert.show();
                 break;
 
-            case R.id.bikeRun2:
+            case R.id.backToBikeRun2:
                 Log.d(TAG, "onClick.bikeRun2");
 
                 //navigation zu BikeRun2, nachdem der User bestätigt hat

@@ -88,5 +88,9 @@
     <fragment
         android:id="@+id/bikeRun3Fragment"
         android:name="com.example.androidstudio.FittnessApp.ui.main.BikeRun.BikeRun3Fragment"
-        android:label="BikeRun3Fragment" />
+        android:label="BikeRun3Fragment" >
+        <action
+            android:id="@+id/action_bikeRun3Fragment_to_bikeRun2Fragment"
+            app:destination="@id/bikeRun2Fragment" />
+    </fragment>
 </navigation>

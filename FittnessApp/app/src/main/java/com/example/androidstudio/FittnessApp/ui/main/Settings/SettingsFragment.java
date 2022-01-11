@@ -202,3 +202,4 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         genderInputD.setChecked(sharedPreferences.getBoolean(DIVERS, false));
     }
 }
+

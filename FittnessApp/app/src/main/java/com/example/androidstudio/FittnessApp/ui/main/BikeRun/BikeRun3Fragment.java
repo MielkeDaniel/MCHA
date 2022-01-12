@@ -31,7 +31,7 @@ public class BikeRun3Fragment extends Fragment implements View.OnClickListener {
     private Button butpauseResume,butstartStop, bikeRun2Button;
     private boolean timerunning;
     private double calories, perHour, perSec;
-    private int totalHeartRate, sec, seconds, averageHeartrate;
+    private int totalHeartRate, seconds, averageHeartrate;
 
     private float met = 6; // MET Unit of measurement for the intensity of movement or sport (rowing with rowing machine).
     private boolean ismen, iswomen, isdev; //Gender of the users
@@ -109,6 +109,9 @@ public class BikeRun3Fragment extends Fragment implements View.OnClickListener {
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getActivity(), callback);
+
+        startTimer();
+
         return view;
     }
 
@@ -117,14 +120,12 @@ public class BikeRun3Fragment extends Fragment implements View.OnClickListener {
         Log.d(TAG, "onClick()");
 
         if (view.getId() == R.id.butstart) {
-            if( ! butstartStop.getText().equals("Stop")) {
+            if(timerunning == false) {
                 timerunning=true; //Wenn The Boolean becomes True the Timer will start
-                startTimer();
                 butstartStop.setText("Stop");//Text on the button is changed to Stop
             }
             else {
                 butstartStop.setText("Start");
-                timerunning=false;
 
                 //Ask the user if he wants to stop drinking
                 AlertDialog.Builder resetAlert = new AlertDialog.Builder(getActivity());//
@@ -186,16 +187,16 @@ public class BikeRun3Fragment extends Fragment implements View.OnClickListener {
         handler.post(new Runnable() {
             @Override
             public void run() {
+                int secs = seconds % 60;
                 int hrs = seconds / 3600;
                 int mins= (seconds % 3600) / 60;
-                sec= seconds % 60;
-                String time = String.format("%02d:%02d:%2d", hrs, mins,sec);
+                String time = String.format("%02d:%02d:%2d", hrs, mins,secs);
+                timertext.setText(time);
 
                 if (timerunning){
                     seconds++;
                     Calories(); //The calorie class is called after every second
                     textviewKcal.setText(" "+ Math.round(calories)); // The calories are visible to the user on the textview
-                    timertext.setText(time);
                     Heartrate();
                 }
                 handler.postDelayed(this, 1000); //after every second this class is called
@@ -211,18 +212,18 @@ public class BikeRun3Fragment extends Fragment implements View.OnClickListener {
         if (ismen==true){
             perHour=0.9*1*Double.parseDouble(weight)*met; //Calores in 1 sec
             perSec=perHour/3600;
-            calories=perSec*sec;
+            calories=perSec*seconds;
         }
         else if(iswomen==true){
             perHour=1*(1/3600)*Double.parseDouble(weight)*met;
             perSec=perHour/3600;
-            calories=perSec*sec;
+            calories=perSec*seconds;
 
         }
         else if (isdev==true){
             perHour=0.9*1*Double.parseDouble(weight)*met; //Calores in 1 sec
             perSec=perHour/3600;
-            calories=perSec*sec;
+            calories=perSec*seconds;
 
         }
     }
@@ -248,6 +249,9 @@ public class BikeRun3Fragment extends Fragment implements View.OnClickListener {
         timertext.setText("00:00:00");
         tv_MittlereHerz.setText("0");
         heartRate=0;
+        totalHeartRate = 0;
+        averageHeartrate = 0;
+        timerunning = false;
         heartRateZeahler=0;
 
     }

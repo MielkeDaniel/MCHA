@@ -145,7 +145,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Cardio"
+        android:text="BikeRun 3"
         android:textColor="#0F1121"
         android:textSize="34sp"
         app:layout_constraintBottom_toTopOf="@+id/daurTv"

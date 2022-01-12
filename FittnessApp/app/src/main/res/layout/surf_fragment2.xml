@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".ui.main.BikeRun.BikeRun2Fragment">
+    tools:context=".ui.main.Track.TrackFragment">
 
     <org.osmdroid.views.MapView
         android:id="@+id/map"
@@ -25,7 +25,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:text="BikeRun 2"
+        android:text="Surf 2"
         android:textColor="@color/black"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -139,24 +139,13 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/bikeRun1"
+        android:id="@+id/surf1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:backgroundTint="#2F94FC"
-        android:text="BikeRun 1"
+        android:text="Surf 1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/bikeRun3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:backgroundTint="#2F94FC"
-        android:text="BikeRun 3"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

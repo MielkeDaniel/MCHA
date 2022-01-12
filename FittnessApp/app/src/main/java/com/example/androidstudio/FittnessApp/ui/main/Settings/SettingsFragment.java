@@ -44,12 +44,13 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     private static String MALE = "MALE";
     private static String FEMALE = "FEMALE";
     private static String DIVERS = "DIVERS";
+    private static String STATUS = "STATUS";
 
     private static int request_Code = 1;
 
     // XML Objects
     Button btButton;
-    EditText nameInput,  ageInput, weightInput, heightInput, emailInput;
+    EditText nameInput,  ageInput, weightInput, heightInput, emailInput, fitnessStatus;
     RadioButton genderInputM, genderInputF, genderInputD;
     TextView connectionState;
 
@@ -76,6 +77,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         weightInput = (EditText) view.findViewById(R.id.weightInput);
         heightInput = (EditText) view.findViewById(R.id.heightInput);
         emailInput = (EditText) view.findViewById(R.id.emailInput);
+        fitnessStatus = (EditText) view.findViewById(R.id.fittnessStatusInput);
         connectionState = (TextView) view.findViewById(R.id.connectionState);
         genderInputM = (RadioButton) view.findViewById(R.id.genderM);
         genderInputF = (RadioButton) view.findViewById(R.id.genderF);
@@ -174,6 +176,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         editor.putString(WEIGHT, weightInput.getText().toString());
         editor.putString(HEIGHT, heightInput.getText().toString());
         editor.putString(EMAIL, emailInput.getText().toString());
+        editor.putString(STATUS, fitnessStatus.getText().toString());
         editor.putBoolean(MALE, genderInputM.isChecked());
         editor.putBoolean(DIVERS, genderInputD.isChecked());
         editor.putBoolean(FEMALE, genderInputF.isChecked());
@@ -197,6 +200,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         weightInput.setText(sharedPreferences.getString(WEIGHT, ""));
         heightInput.setText(sharedPreferences.getString(HEIGHT, ""));
         emailInput.setText(sharedPreferences.getString(EMAIL, ""));
+        fitnessStatus.setText(sharedPreferences.getString(STATUS, ""));
         genderInputM.setChecked(sharedPreferences.getBoolean(MALE, false));
         genderInputF.setChecked(sharedPreferences.getBoolean(FEMALE, false));
         genderInputD.setChecked(sharedPreferences.getBoolean(DIVERS, false));

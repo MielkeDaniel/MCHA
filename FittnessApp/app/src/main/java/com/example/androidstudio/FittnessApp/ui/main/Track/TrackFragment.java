@@ -42,8 +42,8 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
 
 
     //Boolean-Variablen
-    boolean startStopGPS = false;
-    boolean center = true;
+    private boolean startStopGPS = false;
+    private boolean center = true;
     //Buttons
     private Button zoomInButton;
     private Button zoomOutButton;
@@ -133,7 +133,6 @@ public class TrackFragment extends Fragment implements View.OnClickListener, Loc
         line = new Polyline(); //Neue Polyline wird angelegt
         return view;
     }
-
 
     @Override
     public void onClick(View view) {

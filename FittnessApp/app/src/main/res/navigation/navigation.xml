@@ -72,6 +72,9 @@
         <action
             android:id="@+id/action_bikeRun2Fragment_to_bikeRunFragment"
             app:destination="@id/bikeRunFragment" />
+        <action
+            android:id="@+id/action_bikeRun2Fragment_to_bikeRun3Fragment"
+            app:destination="@id/bikeRun3Fragment" />
     </fragment>
     <fragment
         android:id="@+id/action_homeFragment_to_surfFragment"
@@ -81,5 +84,13 @@
         <action
             android:id="@+id/action_action_homeFragment_to_surfFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bikeRun3Fragment"
+        android:name="com.example.androidstudio.FittnessApp.ui.main.BikeRun.BikeRun3Fragment"
+        android:label="BikeRun3Fragment" >
+        <action
+            android:id="@+id/action_bikeRun3Fragment_to_bikeRun2Fragment"
+            app:destination="@id/bikeRun2Fragment" />
     </fragment>
 </navigation>

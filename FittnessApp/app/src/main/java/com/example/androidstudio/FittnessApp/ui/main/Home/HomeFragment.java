@@ -16,7 +16,7 @@ import com.example.androidstudio.FittnessApp.R;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "HomeFragment";
-    CardView homeCard;
+    // Cardviews
     CardView trackCard;
     CardView surfCard;
     CardView settingsCard;
@@ -31,15 +31,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         View view = inflater.inflate(R.layout.home_fragment, container, false);
 
+        // Zuweisung der entsprechenden Views
         trackCard = (CardView) view.findViewById(R.id.trackCard);
         settingsCard = (CardView) view.findViewById(R.id.settingsCard);
         cardioCard = (CardView) view.findViewById(R.id.cardioCard);
         bicycleCard= (CardView) view.findViewById(R.id.bicycleCard);
         surfCard= (CardView) view.findViewById(R.id.surfCard);
 
-
+        // Onclicklistener
         trackCard.setOnClickListener(this);
-
         surfCard.setOnClickListener(this);
         settingsCard.setOnClickListener(this);
         cardioCard.setOnClickListener(this);
@@ -50,6 +50,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
 
+    // Löst die entsprechende Aktion zum Wechseln zu den verschiednene Fragments aus
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
